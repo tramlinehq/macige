@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<!DOCTYPE html><html lang="en"><head>
     <title>congo</title>
-    <base data-trunk-public-url />
+    <base href="/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
-    <link data-trunk rel="copy-dir" href="public/" />
+    
     <link rel="stylesheet" href="public/style.css">
     <link rel="apple-touch-icon" sizes="57x57" href="public/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="public/apple-icon-60x60.png">
@@ -17,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="public/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="public/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="public/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="public/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="public/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="public/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
@@ -30,8 +28,38 @@
      /* to prevent Firefox FOUC, this must be here */
      let FF_FOUC_FIX;
     </script>
-  </head>
+  
+<link rel="preload" href="/cong-2b9948eed6fd6e39_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/cong-2b9948eed6fd6e39.js"></head>
 
   <body>
-  </body>
-</html>
+  
+
+<script type="module">import init from '/cong-2b9948eed6fd6e39.js';init('/cong-2b9948eed6fd6e39_bg.wasm');</script><script>(function () {
+    var protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    var url = protocol + '//' + window.location.host + '/_trunk/ws';
+    var poll_interval = 5000;
+    var reload_upon_connect = () => {
+        window.setTimeout(
+            () => {
+                // when we successfully reconnect, we'll force a
+                // reload (since we presumably lost connection to
+                // trunk due to it being killed, so it will have
+                // rebuilt on restart)
+                var ws = new WebSocket(url);
+                ws.onopen = () => window.location.reload();
+                ws.onclose = reload_upon_connect;
+            },
+            poll_interval);
+    };
+
+    var ws = new WebSocket(url);
+    ws.onmessage = (ev) => {
+        const msg = JSON.parse(ev.data);
+        if (msg.reload) {
+            window.location.reload();
+        }
+    };
+    ws.onclose = reload_upon_connect;
+})()
+</script></body></html>
