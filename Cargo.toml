@@ -4,20 +4,14 @@ version = "1.0.0"
 edition = "2021"
 
 [dependencies]
-yew = "0.19"
+yew = { git = "https://github.com/yewstack/yew.git", features = ["csr"] }
+yew-hooks = { git = "https://github.com/jetli/yew-hooks" }
+gloo-utils = { version = "0.1.5", features = ["serde"] }
 wasm-bindgen = "0.2.83"
 strum = "0.24.1"
 strum_macros = "0.24.1"
 serde = "1.0.147"
 serde_derive = "1.0.147"
 log = "0.4.6"
+web-sys = { version = "0.3.60", features = ["HtmlSelectElement", "HtmlElement"]}
 wasm-logger = "0.2.0"
-
-[dependencies.web-sys]
-version = "0.3.60"
-features = [
-	"HtmlSelectElement",
-  "Navigator",
-  "Window",
-  "Clipboard"
-]

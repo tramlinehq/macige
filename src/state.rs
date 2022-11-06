@@ -13,7 +13,7 @@ pub struct State {
     Clone, Copy, Debug, EnumIter, EnumString, Display, PartialEq, Serialize, Deserialize, Eq,
 )]
 pub enum Platform {
-    #[strum(serialize = "GitHub")]
+    #[strum(serialize = "GitHub Actions")]
     GitHub,
 }
 
@@ -33,8 +33,8 @@ pub enum SDK {
     Clone, Copy, Debug, EnumIter, EnumString, Display, PartialEq, Serialize, Deserialize, Eq,
 )]
 pub enum BuildType {
-    #[strum(serialize = "Debug Build (unsigned)")]
+    #[strum(serialize = "Debug (unsigned)")]
     Unsigned,
-    #[strum(serialize = "Release Build (signed)")]
+    #[strum(serialize = "Release (signed)")]
     Signed,
 }
