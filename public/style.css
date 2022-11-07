@@ -29,9 +29,6 @@ button.copy {
   font-size: 1em !important;
   background-color: lightgrey !important;
   padding: 2px;
-  margin: 0;
-  margin-bottom: 0.5em;
-  float: right;
 }
 
 button:focus { filter: none; }
@@ -46,24 +43,29 @@ select:focus {
 }
 
 pre {
-  background: #282b2e;
   white-space: pre;
   word-wrap: break-word;
   overflow: auto;
+}
+
+.notice {
+  background: var(--accent-bg);
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  padding: 1.5rem;
+  margin: 2rem 0;
 }
 
 pre.code {
   border-radius: 4px;
   border: 1px solid #282b2e;
   position: relative;
-  clear: both;
 }
 
 pre.code label {
   font-family: inherit;
   font-weight: bold;
   font-size: 13px;
-  color: #ddd;
   position: absolute;
   left: 1px;
   top: 15px;
@@ -84,7 +86,17 @@ pre.code code {
   overflow-x: auto;
   font-size: 13px;
   line-height: 19px;
-  color: #ddd;
+}
+
+.copy-to-clipboard {
+  display: flex;
+  justify-content: right;
+  gap: 1em;
+  align-items: center;
+}
+
+.sm-t {
+  font-size: 12px;
 }
 
 .pickers {
@@ -97,7 +109,6 @@ pre.code code {
 .picker-wide {
   grid-column: span 2;
 }
-
 
 @media screen and (max-width: 600px) {
   .pickers {
