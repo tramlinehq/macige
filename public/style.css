@@ -18,19 +18,6 @@ header {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-button.cta {
-  font-family: inherit !important;
-  font-size: 1em !important;
-  background-color: #ef5745 !important;
-}
-
-button.copy {
-  font-family: inherit !important;
-  font-size: 1em !important;
-  background-color: lightgrey !important;
-  padding: 2px;
-}
-
 button:focus { filter: none; }
 
 header h1 {
@@ -46,14 +33,6 @@ pre {
   white-space: pre;
   word-wrap: break-word;
   overflow: auto;
-}
-
-.notice {
-  background: var(--accent-bg);
-  border: 2px solid var(--border);
-  border-radius: 5px;
-  padding: 1.5rem;
-  margin: 2rem 0;
 }
 
 pre.code {
@@ -88,15 +67,32 @@ pre.code code {
   line-height: 19px;
 }
 
+button.cta {
+  font-family: inherit !important;
+  font-size: 1em !important;
+  background-color: #ef5745 !important;
+}
+
+button.copy {
+  font-family: inherit !important;
+  font-size: 1em !important;
+  background-color: lightgrey !important;
+  padding: 2px;
+}
+
+.notice {
+  background: var(--accent-bg);
+  border: 2px solid var(--border);
+  border-radius: 5px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
 .copy-to-clipboard {
   display: flex;
   justify-content: right;
   gap: 1em;
   align-items: center;
-}
-
-.sm-t {
-  font-size: 12px;
 }
 
 .pickers {
@@ -125,6 +121,10 @@ pre.code code {
   padding: 5px;
   background-color: #d0ccc8;
   margin-left: 0.3em;
+}
+
+.sm-t {
+  font-size: 12px;
 }
 
 .p-1 {
