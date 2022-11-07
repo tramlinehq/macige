@@ -9,6 +9,7 @@ body {
   font-family: "Reforma", sans-serif;
   background-color: #f6f6f6;
   color: #424242;
+  overflow: scroll;
 }
 
 header {
