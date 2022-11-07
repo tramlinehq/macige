@@ -44,7 +44,7 @@ select:focus {
 }
 
 pre {
-  background: #333;
+  background: #282b2e;
   white-space: pre;
   word-wrap: break-word;
   overflow: auto;
@@ -52,7 +52,7 @@ pre {
 
 pre.code {
   border-radius: 4px;
-  border: 1px solid #292929;
+  border: 1px solid #282b2e;
   position: relative;
   clear: both;
 }
@@ -85,13 +85,9 @@ pre.code code {
   color: #ddd;
 }
 
-pre.code-html code {
-  color: #aed581;
-}
-
 .pickers {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 0.5em;
   column-gap: 0.5em;
 }
