@@ -6,7 +6,15 @@ pub struct State {
     pub platform: Platform,
     pub sdk: SDK,
     pub build_type: BuildType,
-    pub code: String,
+    pub code: Option<String>,
+    pub info: Option<String>,
+}
+
+impl State {
+    pub fn clear_text(&mut self) {
+        self.info = Some(String::new());
+        self.code = Some(String::new());
+    }
 }
 
 #[derive(

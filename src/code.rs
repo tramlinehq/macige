@@ -37,54 +37,85 @@ struct GithubReactNativeUnsigned<'a> {
     title: &'a str,
 }
 
-pub fn generate(platform: Platform, sdk: SDK, build_type: BuildType) -> String {
-    match (platform, sdk, build_type) {
-        (Platform::GitHub, SDK::Native, BuildType::Signed) => {
-            let template = GithubNativeSigned {
-                title: "Android Play Store release build",
-            };
+pub struct Code {
+    pub platform: Platform,
+    pub sdk: SDK,
+    pub build_type: BuildType,
+}
 
-            template.render().unwrap()
-        }
+pub struct CodeResult {
+    pub info_template: String,
+    pub code_template: String,
+}
 
-        (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
-            let template = GithubFlutterSigned {
-                title: "Android Play Store release build",
-            };
+impl Code {
+    pub fn generate(&self) -> CodeResult {
+        match (self.platform, self.sdk, self.build_type) {
+            (Platform::GitHub, SDK::Native, BuildType::Signed) => {
+                let code_template = GithubNativeSigned {
+                    title: "Android Play Store release build",
+                };
 
-            template.render().unwrap()
-        }
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
 
-        (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
-            let template = GithubReactNativeSigned {
-                title: "Android Play Store release build",
-            };
+            (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
+                let code_template = GithubFlutterSigned {
+                    title: "Android Play Store release build",
+                };
 
-            template.render().unwrap()
-        }
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
 
-        (Platform::GitHub, SDK::Native, BuildType::Unsigned) => {
-            let template = GithubNativeUnsigned {
-                title: "Android debug build",
-            };
+            (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
+                let code_template = GithubReactNativeSigned {
+                    title: "Android Play Store release build",
+                };
 
-            template.render().unwrap()
-        }
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
 
-        (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
-            let template = GithubFlutterUnsigned {
-                title: "Android debug build",
-            };
+            (Platform::GitHub, SDK::Native, BuildType::Unsigned) => {
+                let code_template = GithubNativeUnsigned {
+                    title: "Android debug build",
+                };
 
-            template.render().unwrap()
-        }
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
 
-        (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
-            let template = GithubReactNativeUnsigned {
-                title: "Android debug build",
-            };
+            (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
+                let code_template = GithubFlutterUnsigned {
+                    title: "Android debug build",
+                };
 
-            template.render().unwrap()
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
+
+            (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
+                let code_template = GithubReactNativeUnsigned {
+                    title: "Android debug build",
+                };
+
+                CodeResult {
+                    code_template: code_template.render().unwrap(),
+                    info_template: String::new(),
+                }
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 mod bindings;
 mod code;
 mod state;
-use gloo_utils::format::JsValueSerdeExt;
 use state::{BuildType, Platform, State, SDK};
 use std::fmt;
 use std::str::FromStr;
@@ -16,7 +15,7 @@ use yew_hooks::prelude::*;
 fn Header() -> Html {
     html! {
         <header>
-            <h1>{ "Cong" }<img src="public/controller.svg" class="logo" /></h1>
+            <h1>{ "macigè" }<img src="public/controller.svg" class="logo" /></h1>
             <p class="p-1">{ "sample template CI workflow files for mobile apps" }</p>
         </header>
     }
@@ -33,51 +32,75 @@ fn Footer() -> Html {
 
 #[derive(Properties, PartialEq)]
 pub struct CopyToClipboardProps {
-    pub code: String,
+    #[prop_or_default]
+    pub code: Option<String>,
 }
 
 #[function_component]
 fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     let clipboard = use_clipboard();
 
-    let on_click = {
-        let code = props.code.clone();
+    let onclick = {
         let clipboard = clipboard.clone();
 
-        Callback::from(move |e: MouseEvent| {
-            e.prevent_default();
-            Some(clipboard.write_text(code.to_owned()));
-        })
+        if let Some(code) = props.code.clone() {
+            Callback::from(move |e: MouseEvent| {
+                e.prevent_default();
+                clipboard.write_text(code.clone())
+            })
+        } else {
+            Callback::noop()
+        }
     };
 
     html! {
         <>
-            <button class="copy" onclick={on_click}>
-              <img src="/public/clipboard-text.svg" width="24" />
+            <button class="copy" onclick={onclick}>
+            <img src="/public/clipboard-text.svg" width="24" />
             </button>
         </>
     }
 }
 
 #[derive(Properties, PartialEq)]
-pub struct DisplaySnippetProps {
-    pub code: String,
+pub struct DisplayInfoProps {
+    pub info: Option<String>,
 }
 
 #[function_component]
-fn DisplaySnippet(props: &DisplaySnippetProps) -> Html {
+fn DisplayInfo(props: &DisplayInfoProps) -> Html {
+    let info_ref = use_node_ref();
+
+    if let Some(info_el) = info_ref.cast::<HtmlElement>() {
+        info_el.set_inner_html(&props.info.clone().unwrap_or_else(|| "".to_string()));
+    }
+
+    html! {
+        <div ref={info_ref}></div>
+    }
+}
+
+#[derive(Properties, PartialEq)]
+pub struct DisplayCodeProps {
+    pub code: Option<String>,
+}
+
+#[function_component]
+fn DisplayCode(props: &DisplayCodeProps) -> Html {
     let code_ref = use_node_ref();
 
     let options = bindings::HighlightOptions {
-        language: "yaml".to_string(),
+        language: "yaml".to_owned(),
         ignore_illegals: true,
     };
 
-    let highlighted: bindings::HighlightResult =
-        bindings::Hljs::highlight(&props.code.clone(), &JsValue::from_serde(&options).unwrap());
+    if let Some(code) = props.code.clone() {
+        let highlighted: bindings::HighlightResult =
+            bindings::Hljs::highlight(&code, &JsValue::from_serde(&options).unwrap());
 
-    if let Some(code_el) = code_ref.cast::<HtmlElement>() {
-        code_el.set_inner_html(&highlighted.value());
+        if let Some(code_el) = code_ref.cast::<HtmlElement>() {
+            code_el.set_inner_html(&highlighted.value());
+        }
     }
 
     html! {
@@ -105,7 +128,8 @@ impl Component for App {
             platform: Platform::GitHub,
             sdk: SDK::Native,
             build_type: BuildType::Unsigned,
-            code: String::new(),
+            code: None,
+            info: None,
         };
 
         Self { state }
@@ -114,19 +138,26 @@ impl Component for App {
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::Generate => {
-                self.state.code =
-                    code::generate(self.state.platform, self.state.sdk, self.state.build_type);
+                let code = code::Code {
+                    platform: self.state.platform,
+                    sdk: self.state.sdk,
+                    build_type: self.state.build_type,
+                }
+                .generate();
+
+                self.state.code = Some(code.code_template);
+                self.state.info = Some(code.info_template)
             }
             Msg::UpdatePlatform(selected) => {
-                self.state.code = String::new();
+                self.state.clear_text();
                 self.state.platform = Platform::from_str(&selected).unwrap();
             }
             Msg::UpdateSDK(selected) => {
-                self.state.code = String::new();
+                self.state.clear_text();
                 self.state.sdk = SDK::from_str(&selected).unwrap();
             }
             Msg::UpdateBuildType(selected) => {
-                self.state.code = String::new();
+                self.state.clear_text();
                 self.state.build_type = BuildType::from_str(&selected).unwrap();
             }
         }
@@ -160,14 +191,21 @@ impl Component for App {
                 <Header />
 
                 <main>
+
                 <div class="pickers">
                 <select class="picker-wide" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
                 <select class="picker-wide" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
                 <select class="picker-wide" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>
                 </div>
+
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 
-                <div><CopyToClipboardButton code={self.state.code.to_string()} /><DisplaySnippet code={ self.state.code.to_string() } /></div>
+                <div>
+                <DisplayInfo info={ self.state.info.to_owned() } />
+                <CopyToClipboardButton code={self.state.code.to_owned() } />
+                <DisplayCode code={ self.state.code.to_owned() } />
+                </div>
+
                 </main>
 
                 <Footer />
