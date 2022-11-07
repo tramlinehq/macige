@@ -17,7 +17,7 @@ fn Header() -> Html {
     html! {
         <header>
             <h1>{ "Cong" }<img src="public/controller.svg" class="logo" /></h1>
-            <p class="p-1">{ "quickly generate template CI workflow files for mobile apps" }</p>
+            <p class="p-1">{ "sample template CI workflow files for mobile apps" }</p>
         </header>
     }
 }
@@ -118,12 +118,15 @@ impl Component for App {
                     code::generate(self.state.platform, self.state.sdk, self.state.build_type);
             }
             Msg::UpdatePlatform(selected) => {
+                self.state.code = String::new();
                 self.state.platform = Platform::from_str(&selected).unwrap();
             }
             Msg::UpdateSDK(selected) => {
+                self.state.code = String::new();
                 self.state.sdk = SDK::from_str(&selected).unwrap();
             }
             Msg::UpdateBuildType(selected) => {
+                self.state.code = String::new();
                 self.state.build_type = BuildType::from_str(&selected).unwrap();
             }
         }

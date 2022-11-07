@@ -1,0 +1,56 @@
+name: {{ title }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionName:
+        description: 'User-facing release version name'
+        required: true
+        default: "1.0.0"
+      versionCode:
+        description: 'versionCode or build number'
+        required: true
+        default: '1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: 11
+        cache: 'gradle'
+
+    # Setup the flutter environment.
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: true
+
+    # Get flutter dependencies.
+    - run: flutter pub get
+
+    {% raw -%}
+    - name: Retrieve secrets
+      env:
+        KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+        KEY_PROPERTIES_B64: ${{ secrets.KEY_PROPERTIES_B64 }}
+      run: |
+        echo $KEYSTORE_B64 | base64 --decode > android/app/ueno-upload-keystore.jks
+        echo $KEY_PROPERTIES_B64 | base64 --decode > android/key.properties
+    {%- endraw %}
+
+    # Build apk.
+    {% raw -%}
+    - run: flutter build appbundle --release --build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}
+    {%- endraw %}
+
+    # Upload generated apk to the artifacts.
+    - uses: actions/upload-artifact@v3
+      with:
+        name: release-aab
+        path: build/app/outputs/bundle/release/app-release.aab
