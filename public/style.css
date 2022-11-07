@@ -34,6 +34,8 @@ button.copy {
   float: right;
 }
 
+button:focus { filter: none; }
+
 header h1 {
   font-size: 64px;
 }
