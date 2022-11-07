@@ -39,13 +39,24 @@ pub struct CopyToClipboardProps {
 #[function_component]
 fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     let clipboard = use_clipboard();
+    let should_say_copied = use_state(|| false);
 
     let onclick = {
         let clipboard = clipboard.clone();
+        let should_say_copied_clone = should_say_copied.clone();
 
         if let Some(code) = props.code.clone() {
             Callback::from(move |e: MouseEvent| {
                 e.prevent_default();
+
+                // some serious cloning going on in here?!
+                let should_say_copied_cc = should_say_copied_clone.clone();
+                should_say_copied_cc.set(true);
+                gloo::timers::callback::Timeout::new(1300, move || {
+                    should_say_copied_cc.set(false);
+                })
+                .forget();
+
                 clipboard.write_text(code.clone())
             })
         } else {
@@ -54,11 +65,14 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     };
 
     html! {
-        <>
+        <div class="copy-to-clipboard">
+            if *should_say_copied {
+                <p class="sm-t"><mark>{"Copied!"}</mark></p>
+            }
             <button class="copy" onclick={onclick}>
             <img src="/public/clipboard-text.svg" width="24" />
             </button>
-        </>
+        </div>
     }
 }
 

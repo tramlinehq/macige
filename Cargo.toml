@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 yew = { git = "https://github.com/yewstack/yew.git", features = ["csr"] }
 yew-hooks = { git = "https://github.com/jetli/yew-hooks" }
+gloo = "0.8.0"
 gloo-utils = { version = "0.1.5", features = ["serde"] }
 askama = "0.11"
 wasm-bindgen = "0.2.83"

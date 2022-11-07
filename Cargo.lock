@@ -94,6 +94,7 @@ name = "cong"
 version = "1.0.0"
 dependencies = [
  "askama",
+ "gloo 0.8.0",
  "gloo-utils",
  "log",
  "serde",
