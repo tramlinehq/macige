@@ -3,6 +3,7 @@
   src: url("/public/reforma.1918-gris.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
+  font-display: swap;
 }
 
 body {

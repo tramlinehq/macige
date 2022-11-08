@@ -15,7 +15,7 @@ use yew_hooks::prelude::*;
 fn Header() -> Html {
     html! {
         <header>
-            <h1>{ "macigè" }<img src="public/controller.svg" class="logo" /></h1>
+            <h1>{ "macigè" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
             <p class="p-1">{ "sample template CI workflow files for mobile apps" }</p>
         </header>
     }
@@ -25,7 +25,8 @@ fn Header() -> Html {
 fn Footer() -> Html {
     html! {
         <footer>
-            <p>{ "Built in Rust " }<img src="/public/tram.svg" width="16" />{ " by " }<a href="https://tramline.app">{ "Tramline" }</a></p>
+            <p>{ "Built in Rust " }<img src="/public/tram.svg" width="16" height="16" alt="tram-logo" />{ " by " }<a href="https://tramline.app">{ "Tramline" }</a></p>
+            <p class="sm-t">{ "If you found the tool helpful, or would like to improve it, drop us a " }<a href="https://github.com/tramlinehq/macige/issues">{ "note!" }</a></p>
         </footer>
     }
 }
@@ -70,7 +71,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
                 <p class="sm-t"><mark>{"Copied!"}</mark></p>
             }
             <button class="copy" onclick={onclick}>
-            <img src="/public/clipboard-text.svg" width="24" />
+            <img src="/public/clipboard-text.svg" width="24" height="24" alt="copy to clipboard" />
             </button>
         </div>
     }
@@ -157,7 +158,7 @@ impl Component for App {
                     sdk: self.state.sdk,
                     build_type: self.state.build_type,
                 }
-                .generate();
+                .generate_templates();
 
                 self.state.code = Some(code.code_template);
                 self.state.info = Some(code.info_template)

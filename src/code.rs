@@ -49,7 +49,7 @@ pub struct CodeResult {
 }
 
 impl Code {
-    pub fn generate(&self) -> CodeResult {
+    pub fn generate_templates(&self) -> CodeResult {
         match (self.platform, self.sdk, self.build_type) {
             (Platform::GitHub, SDK::Native, BuildType::Signed) => {
                 let code_template = GithubNativeSigned {
