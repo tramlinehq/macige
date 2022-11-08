@@ -85,7 +85,7 @@ fn DisplayInfo(props: &DisplayInfoProps) -> Html {
     let info_ref = use_node_ref();
 
     if let Some(info_el) = info_ref.cast::<HtmlElement>() {
-        info_el.set_inner_html(&props.info.clone().unwrap_or_else(|| "".to_string()));
+        info_el.set_inner_html(&props.info.clone().unwrap_or_default());
     }
 
     html! {
