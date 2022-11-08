@@ -206,7 +206,22 @@ impl Component for App {
 
                 <main>
 
+                <p class="notice">
+                { "Stop building your mobile apps by hand and passing builds around! 🚨" }
+                <br/><br/>
+                { "Use a " } <a href="https://en.wikipedia.org/wiki/CI/CD">{"CI server"}</a> { " instead!" }
+                <br/><br/>
+                <ol>
+                <li>{ "Pick a CI provider" }</li>
+                <li>{ "Select build attributes" }</li>
+                <li>{ "Read the instructions" }</li>
+                <li>{ "Tweak, as necessary" }</li>
+                <li>{ "Get up and running! 🚀" }</li>
+                </ol>
+                </p>
+
                 <div class="pickers">
+
                 <select class="picker-wide" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
                 <select class="picker-wide" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
                 <select class="picker-wide" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>

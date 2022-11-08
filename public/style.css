@@ -22,7 +22,7 @@ header {
 button:focus { filter: none; }
 
 header h1 {
-  font-size: 64px;
+  font-size: 72px;
 }
 
 select:focus {
@@ -87,6 +87,7 @@ button.copy {
   border-radius: 5px;
   padding: 1.5rem;
   margin: 2rem 0;
+  color: inherit;
 }
 
 .copy-to-clipboard {
