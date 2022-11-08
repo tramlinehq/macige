@@ -5,7 +5,6 @@ use state::{BuildType, Platform, State, SDK};
 use std::fmt;
 use std::str::FromStr;
 use strum::IntoEnumIterator;
-use wasm_bindgen::JsValue;
 use web_sys::{HtmlElement, HtmlSelectElement};
 use yew::prelude::*;
 use yew::{events::InputEvent, function_component, html, Component, Context, Html};
@@ -31,7 +30,7 @@ fn Footer() -> Html {
     }
 }
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Eq)]
 pub struct CopyToClipboardProps {
     #[prop_or_default]
     pub code: Option<String>,
@@ -43,7 +42,6 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     let should_say_copied = use_state(|| false);
 
     let onclick = {
-        let clipboard = clipboard.clone();
         let should_say_copied_clone = should_say_copied.clone();
 
         if let Some(code) = props.code.clone() {
@@ -77,7 +75,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     }
 }
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Eq)]
 pub struct DisplayInfoProps {
     pub info: Option<String>,
 }
@@ -95,7 +93,7 @@ fn DisplayInfo(props: &DisplayInfoProps) -> Html {
     }
 }
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Eq)]
 pub struct DisplayCodeProps {
     pub code: Option<String>,
 }
@@ -111,7 +109,7 @@ fn DisplayCode(props: &DisplayCodeProps) -> Html {
 
     if let Some(code) = props.code.clone() {
         let highlighted: bindings::HighlightResult =
-            bindings::Hljs::highlight(&code, &JsValue::from_serde(&options).unwrap());
+            bindings::Hljs::highlight(&code, &serde_wasm_bindgen::to_value(&options).unwrap());
 
         if let Some(code_el) = code_ref.cast::<HtmlElement>() {
             code_el.set_inner_html(&highlighted.value());

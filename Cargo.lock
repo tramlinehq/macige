@@ -283,7 +283,7 @@ dependencies = [
  "gloo-events",
  "gloo-utils",
  "serde",
- "serde-wasm-bindgen",
+ "serde-wasm-bindgen 0.3.1",
  "serde_urlencoded",
  "thiserror",
  "wasm-bindgen",
@@ -474,9 +474,9 @@ version = "1.0.0"
 dependencies = [
  "askama",
  "gloo 0.8.0",
- "gloo-utils",
  "log",
  "serde",
+ "serde-wasm-bindgen 0.4.5",
  "serde_derive",
  "strum",
  "strum_macros",
@@ -696,6 +696,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "618365e8e586c22123d692b72a7d791d5ee697817b65a218cdf12a98870af0f7"
 dependencies = [
  "fnv",
+ "js-sys",
+ "serde",
+ "wasm-bindgen",
+]
+
+[[package]]
+name = "serde-wasm-bindgen"
+version = "0.4.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3b4c031cd0d9014307d82b8abf653c0290fbdaeb4c02d00c63cf52f728628bf"
+dependencies = [
  "js-sys",
  "serde",
  "wasm-bindgen",
