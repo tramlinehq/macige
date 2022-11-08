@@ -17,3 +17,14 @@ serde_derive = "1.0.147"
 log = "0.4.6"
 web-sys = { version = "0.3.60", features = ["HtmlSelectElement", "HtmlElement"]}
 wasm-logger = "0.2.0"
+
+[profile.release]
+panic = 'abort'
+# optimization over all codebase (better optim, slower build)
+codegen-units = 1
+# optimization for size (more aggressive)
+opt-level = 'z'
+# optimization for size
+# opt-level = 's'
+# link time optimization using using whole-program analysis
+lto = true
