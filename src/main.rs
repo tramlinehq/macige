@@ -1,7 +1,6 @@
 mod bindings;
-mod code;
 mod state;
-use state::{BuildType, Platform, State, SDK};
+use state::{BuildType, CustomInputs, Platform, PublishingFormat, State, SDK};
 use std::fmt;
 use std::str::FromStr;
 use strum::IntoEnumIterator;
@@ -47,7 +46,6 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
         if let Some(code) = props.code.clone() {
             Callback::from(move |e: MouseEvent| {
                 e.prevent_default();
-
                 // some serious cloning going on in here?!
                 let should_say_copied_cc = should_say_copied_clone.clone();
                 should_say_copied_cc.set(true);
@@ -141,8 +139,13 @@ impl Component for App {
             platform: Platform::GitHub,
             sdk: SDK::Native,
             build_type: BuildType::Unsigned,
-            code: None,
-            info: None,
+            code_template: None,
+            info_template: None,
+            custom_inputs: CustomInputs {
+                build_variant_name: Some("abc".to_string()),
+                build_variant_path: Some("asd".to_string()),
+                publishing_format: PublishingFormat::Apk,
+            },
         };
 
         Self { state }
@@ -150,17 +153,7 @@ impl Component for App {
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::Generate => {
-                let code = code::Code {
-                    platform: self.state.platform,
-                    sdk: self.state.sdk,
-                    build_type: self.state.build_type,
-                }
-                .generate_templates();
-
-                self.state.code = Some(code.code_template);
-                self.state.info = Some(code.info_template)
-            }
+            Msg::Generate => self.state.gen_templates(),
             Msg::UpdatePlatform(selected) => {
                 self.state.clear_text();
                 self.state.platform = Platform::from_str(&selected).unwrap();
@@ -220,7 +213,6 @@ impl Component for App {
                 </p>
 
                 <div class="pickers">
-
                 <select class="picker-wide" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
                 <select class="picker-wide" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
                 <select class="picker-wide" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>
@@ -229,9 +221,9 @@ impl Component for App {
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 
                 <div>
-                <DisplayInfo info={ self.state.info.to_owned() } />
-                <CopyToClipboardButton code={self.state.code.to_owned() } />
-                <DisplayCode code={ self.state.code.to_owned() } />
+                <DisplayInfo info={ self.state.info_template.to_owned() } />
+                <CopyToClipboardButton code={self.state.code_template.to_owned() } />
+                <DisplayCode code={ self.state.code_template.to_owned() } />
                 </div>
 
                 </main>
