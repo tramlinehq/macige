@@ -3,13 +3,13 @@
 
 Built using [yew](https://yew.rs "yew-rs"), [simple.css](https://simplecss.org/ "simple-css") and [highlight.js](https://highlightjs.org "highlight-js").
 
-# dev
+## dev
 
 ```bash
 make serve
 ```
 
-# release
+## release
 
 ```bash
 make all
