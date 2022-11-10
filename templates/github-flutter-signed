@@ -45,12 +45,23 @@ jobs:
     {%- endraw %}
 
     # Build apk.
-    {% raw -%}
-    - run: flutter build appbundle --release --build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}
-    {%- endraw %}
+    {%- let pf %}
+    {%- match publishing_format %}
+    {%- when PublishingFormat::Apk %}
+    {%- let pf = "apk" %}
+    {%- when PublishingFormat::Aab %}
+    {%- let pf = "appbundle" %}
+    {%- endmatch %}
+    - run: flutter build {{ pf }} --release {% raw -%}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
 
     # Upload generated apk to the artifacts.
     - uses: actions/upload-artifact@v3
       with:
+        {%- match publishing_format %}
+        {%- when PublishingFormat::Aab %}
         name: release-aab
-        path: build/app/outputs/bundle/release/app-release.aab
+        path: build/app/outputs/bundle/release/{{ build_variant_path }}.aab
+        {%- when PublishingFormat::Apk %}
+        name: release-apk
+        path: build/app/outputs/apk/release/{{ build_variant_path }}.apk
+        {%- endmatch %}

@@ -4,6 +4,7 @@ use state::{BuildType, CustomInputs, Platform, PublishingFormat, State, SDK};
 use std::fmt;
 use std::str::FromStr;
 use strum::IntoEnumIterator;
+use web_sys::HtmlInputElement as InputElement;
 use web_sys::{HtmlElement, HtmlSelectElement};
 use yew::prelude::*;
 use yew::{events::InputEvent, function_component, html, Component, Context, Html};
@@ -46,8 +47,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
         if let Some(code) = props.code.clone() {
             Callback::from(move |e: MouseEvent| {
                 e.prevent_default();
-                // some serious cloning going on in here?!
-                let should_say_copied_cc = should_say_copied_clone.clone();
+                let should_say_copied_cc = should_say_copied_clone.clone(); // some serious cloning going on in here?!
                 should_say_copied_cc.set(true);
                 gloo::timers::callback::Timeout::new(1300, move || {
                     should_say_copied_cc.set(false);
@@ -124,6 +124,9 @@ enum Msg {
     UpdatePlatform(String),
     UpdateSDK(String),
     UpdateBuildType(String),
+    UpdateBuildVariantName(String),
+    UpdateBuildVariantPath(String),
+    UpdatePublishingFormat(String),
 }
 
 struct App {
@@ -142,8 +145,8 @@ impl Component for App {
             code_template: None,
             info_template: None,
             custom_inputs: CustomInputs {
-                build_variant_name: Some("abc".to_string()),
-                build_variant_path: Some("asd".to_string()),
+                build_variant_name: Some("DevDebug".to_string()),
+                build_variant_path: Some("devDebug/app-debug".to_string()),
                 publishing_format: PublishingFormat::Apk,
             },
         };
@@ -165,6 +168,28 @@ impl Component for App {
             Msg::UpdateBuildType(selected) => {
                 self.state.clear_text();
                 self.state.build_type = BuildType::from_str(&selected).unwrap();
+                if matches!(self.state.build_type, BuildType::Signed) {
+                    self.state.custom_inputs.build_variant_name = Some("ProdRelease".to_string());
+                    self.state.custom_inputs.build_variant_path =
+                        Some("prodRelease/app-prod-release".to_string())
+                } else {
+                    self.state.custom_inputs.build_variant_name = Some("DevDebug".to_string());
+                    self.state.custom_inputs.build_variant_path =
+                        Some("devDebug/app-debug".to_string())
+                }
+            }
+            Msg::UpdateBuildVariantName(value) => {
+                self.state.clear_text();
+                self.state.custom_inputs.build_variant_name = Some(value);
+            }
+            Msg::UpdateBuildVariantPath(value) => {
+                self.state.clear_text();
+                self.state.custom_inputs.build_variant_path = Some(value);
+            }
+            Msg::UpdatePublishingFormat(selected) => {
+                self.state.clear_text();
+                self.state.custom_inputs.publishing_format =
+                    PublishingFormat::from_str(&selected).unwrap();
             }
         }
 
@@ -192,6 +217,22 @@ impl Component for App {
             Some(Msg::UpdateBuildType(input.value()))
         });
 
+        let _on_build_variant_name_change = link.batch_callback(|e: InputEvent| {
+            let input: InputElement = e.target_unchecked_into();
+            Some(Msg::UpdateBuildVariantName(input.value()))
+        });
+
+        let _on_build_variant_path_change = link.batch_callback(|e: InputEvent| {
+            let input: InputElement = e.target_unchecked_into();
+            Some(Msg::UpdateBuildVariantPath(input.value()))
+        });
+
+        let _on_publishing_format_change = link.batch_callback(|e: InputEvent| {
+            e.prevent_default();
+            let input: HtmlSelectElement = e.target_unchecked_into();
+            Some(Msg::UpdatePublishingFormat(input.value()))
+        });
+
         html! {
             <>
                 <Header />
@@ -216,6 +257,20 @@ impl Component for App {
                 <select class="picker-wide" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
                 <select class="picker-wide" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
                 <select class="picker-wide" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>
+                </div>
+
+                <div class="pickers">
+                if !matches!(self.state.sdk, SDK::Flutter) {
+                    <input oninput={_on_build_variant_name_change} type="text" class="picker-wide" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
+                }
+                <div class="picker-wider input-wrapper suffix">
+                <input name="input" oninput={_on_build_variant_path_change} class="build-variant" type="text" value={ self.state.custom_inputs.build_variant_path.to_owned() } />
+                <div class="input-suffix">{ ". " }{self.state.custom_inputs.publishing_format.to_string().to_lowercase()}</div>
+                </div>
+                </div>
+
+                <div class="pickers">
+                <select class="picker-wide" oninput={_on_publishing_format_change} value={ self.state.custom_inputs.publishing_format.to_string() }>{ for self.to_options(self.state.custom_inputs.publishing_format) }</select>
                 </div>
 
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>

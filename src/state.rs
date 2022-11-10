@@ -49,6 +49,12 @@ impl State {
             (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
                 let code_template = GithubFlutterSigned {
                     title: "Android Play Store release build",
+                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    build_variant_path: &self
+                        .custom_inputs
+                        .build_variant_path
+                        .to_owned()
+                        .unwrap_or_default(),
                 };
 
                 (Some(code_template.render().unwrap()), Some(String::new()))
@@ -57,6 +63,17 @@ impl State {
             (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
                 let code_template = GithubReactNativeSigned {
                     title: "Android Play Store release build",
+                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    build_variant_name: &self
+                        .custom_inputs
+                        .build_variant_name
+                        .to_owned()
+                        .unwrap_or_default(),
+                    build_variant_path: &self
+                        .custom_inputs
+                        .build_variant_path
+                        .to_owned()
+                        .unwrap_or_default(),
                 };
 
                 (Some(code_template.render().unwrap()), Some(String::new()))
@@ -84,6 +101,12 @@ impl State {
             (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
                 let code_template = GithubFlutterUnsigned {
                     title: "Android debug build",
+                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    build_variant_path: &self
+                        .custom_inputs
+                        .build_variant_path
+                        .to_owned()
+                        .unwrap_or_default(),
                 };
 
                 (Some(code_template.render().unwrap()), Some(String::new()))
@@ -92,6 +115,17 @@ impl State {
             (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
                 let code_template = GithubReactNativeUnsigned {
                     title: "Android debug build",
+                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    build_variant_name: &self
+                        .custom_inputs
+                        .build_variant_name
+                        .to_owned()
+                        .unwrap_or_default(),
+                    build_variant_path: &self
+                        .custom_inputs
+                        .build_variant_path
+                        .to_owned()
+                        .unwrap_or_default(),
                 };
 
                 (Some(code_template.render().unwrap()), Some(String::new()))
@@ -156,12 +190,17 @@ struct GithubNativeSigned<'a> {
 #[template(path = "github-flutter-signed")]
 struct GithubFlutterSigned<'a> {
     title: &'a str,
+    publishing_format: &'a PublishingFormat,
+    build_variant_path: &'a str,
 }
 
 #[derive(Template)]
 #[template(path = "github-react-native-signed")]
 struct GithubReactNativeSigned<'a> {
     title: &'a str,
+    publishing_format: &'a PublishingFormat,
+    build_variant_name: &'a str,
+    build_variant_path: &'a str,
 }
 
 #[derive(Template)]
@@ -177,10 +216,15 @@ struct GithubNativeUnsigned<'a> {
 #[template(path = "github-flutter-unsigned")]
 struct GithubFlutterUnsigned<'a> {
     title: &'a str,
+    publishing_format: &'a PublishingFormat,
+    build_variant_path: &'a str,
 }
 
 #[derive(Template)]
 #[template(path = "github-react-native-unsigned")]
 struct GithubReactNativeUnsigned<'a> {
     title: &'a str,
+    publishing_format: &'a PublishingFormat,
+    build_variant_name: &'a str,
+    build_variant_path: &'a str,
 }

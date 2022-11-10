@@ -72,7 +72,7 @@ pre.code code {
 button.cta {
   font-family: inherit !important;
   font-size: 1em !important;
-  background-color: #ef5745 !important;
+  background-color: rgb(161, 85, 56) !important;
 }
 
 button.copy {
@@ -109,6 +109,10 @@ button.copy {
   grid-column: span 2;
 }
 
+.picker-wider {
+  grid-column: span 4;
+}
+
 @media screen and (max-width: 600px) {
   .pickers {
     display: grid;
@@ -118,6 +122,36 @@ button.copy {
   .picker-wide {
     grid-column: span 1;
   }
+
+  .picker-wider {
+    grid-column: span 1;
+  }
+}
+
+.input-wrapper {
+  display: flex;
+  justify-content: left;
+  text-align: left;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+}
+
+input.build-variant {
+  position: relative;
+  width: 100%;
+  border: none;
+  margin-bottom: 0 !important;
+  width: 90%;
+  line-height: 0.1em;
+}
+
+.input-suffix {
+  vertical-align: middle;
+  position: relative;
+  padding: 15px 15px 15px 15px;
+  border-radius: 4px 0px 0px 4px;
 }
 
 .logo {

@@ -52,11 +52,23 @@ jobs:
       - name: Make gradlew executable
         run: cd android && chmod +x ./gradlew
 
+      {% match publishing_format %}
+      {% when PublishingFormat::Apk %}
       - name: Build debug APK
-        run: cd android && ./gradlew --no-daemon assembleDebug
+        run: cd android && ./gradlew --no-daemon assemble{{ build_variant_name }}
+      {% when PublishingFormat::Aab %}
+      - name: Build debug AAB
+        run: cd android && ./gradlew --no-daemon bundle{{ build_variant_name }}
+      {% endmatch %}
 
       - name: Upload build file
         uses: actions/upload-artifact@v3
         with:
-          name: debug-build
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          {% match publishing_format %}
+          {% when PublishingFormat::Aab %}
+          name: debug-aab
+          path: android/app/build/outputs/bundle/{{ build_variant_path }}.aab
+          {% when PublishingFormat::Apk %}
+          name: debug-apk
+          path: android/app/build/outputs/apk/{{ build_variant_path }}.apk
+          {% endmatch %}

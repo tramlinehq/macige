@@ -15,7 +15,7 @@ strum_macros = "0.24.1"
 serde = "1.0.147"
 serde_derive = "1.0.147"
 log = "0.4.6"
-web-sys = { version = "0.3.60", features = ["HtmlSelectElement", "HtmlElement"]}
+web-sys = { version = "0.3.60", features = ["HtmlSelectElement", "HtmlElement", "HtmlInputElement"]}
 wasm-logger = "0.2.0"
 
 [profile.release]

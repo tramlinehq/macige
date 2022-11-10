@@ -62,11 +62,23 @@ jobs:
           echo $KEY_PROPERTIES_B64 | base64 --decode > android/key.properties
       {%- endraw %}
 
-      - name: Build debug APK
-        run: cd android && ./gradlew --no-daemon bundleRelease
+      {%- match publishing_format %}
+      {%- when PublishingFormat::Apk %}
+      - name: Build prod APK
+        run: cd android && ./gradlew --no-daemon assemble{{ build_variant_name }}
+      {%- when PublishingFormat::Aab %}
+      - name: Build prod AAB
+        run: cd android && ./gradlew --no-daemon bundle{{ build_variant_name }}
+      {%- endmatch %}
 
       - name: Upload build file
         uses: actions/upload-artifact@v3
         with:
-          name: debug-build
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          {%- match publishing_format %}
+          {%- when PublishingFormat::Aab %}
+          name: release-aab
+          path: android/app/build/outputs/bundle/{{ build_variant_path }}.aab
+          {%- when PublishingFormat::Apk %}
+          name: release-apk
+          path: android/app/build/outputs/apk/{{ build_variant_path }}.apk
+          {%- endmatch %}
