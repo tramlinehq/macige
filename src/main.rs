@@ -276,7 +276,7 @@ impl Component for App {
                 if !matches!(self.state.sdk, SDK::Flutter) {
                     <div class="picker-wide">
                     <label for="build-variant">{"Build Variant "}<span class="sm-t">{"("}<a href="https://developer.android.com/studio/build/build-variants">{"build variants"}</a>{")"}</span></label>
-                    <input name="build-variant" oninput={_on_build_variant_name_change} type="text" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
+                    <input id="build-variant" oninput={_on_build_variant_name_change} type="text" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
                     </div>
                 }
                 <div class="picker-wider">
@@ -290,7 +290,7 @@ impl Component for App {
                   <div class="picker-wider">
                   <label for="output-path">{"Build Output Path "}<span class="sm-t">{"(relative path to the base output directory)"}</span></label>
                   <div class="input-wrapper suffix">
-                  <input aria-labelledby="output-path" name="output-path" oninput={_on_build_variant_path_change} class="build-variant" type="text" value={ self.state.custom_inputs.build_variant_path.to_owned() } />
+                  <input aria-labelledby="output-path" id="output-path" oninput={_on_build_variant_path_change} class="build-variant" type="text" value={ self.state.custom_inputs.build_variant_path.to_owned() } />
                   <div class="input-suffix">{ ". " }{self.state.custom_inputs.publishing_format.to_string().to_lowercase()}</div>
                   </div>
                 </div>

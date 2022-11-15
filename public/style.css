@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Reforma";
-  src: url("/public/reforma.1918-gris.ttf") format("truetype");
+  src: url("/public/reforma.1918-gris.woff2") format("woff2");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
