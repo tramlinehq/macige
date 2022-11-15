@@ -774,7 +774,7 @@ function initSync(module) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('macigè-a717fbce2f5742a4_bg.wasm', import.meta.url);
+        input = new URL('macigè-cb12a106106deb2e_bg.wasm', import.meta.url);
     }
     const imports = getImports();
 
