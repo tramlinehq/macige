@@ -19,7 +19,7 @@ check:
 
 .PHONY: fmt
 fmt:
-	cargo fmt --all
+	cargo fmt --all --check
 
 .PHONY: clean
 clean:

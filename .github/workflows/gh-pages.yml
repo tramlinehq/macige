@@ -20,22 +20,7 @@ jobs:
       - uses: Swatinem/rust-cache@v1
       - uses: actions-rs/cargo@v1
         with:
-          command: check
-
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: Swatinem/rust-cache@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+          command: make check
 
   fmt:
     name: Rustfmt
@@ -51,8 +36,7 @@ jobs:
       - uses: Swatinem/rust-cache@v1
       - uses: actions-rs/cargo@v1
         with:
-          command: fmt
-          args: --all -- --check
+          command: make fmt
 
   clippy:
     name: Clippy
@@ -68,8 +52,8 @@ jobs:
       - uses: Swatinem/rust-cache@v1
       - uses: actions-rs/cargo@v1
         with:
-          command: clippy
-          args: -- -D warnings
+          command: make clippy
+
   deploy:
     runs-on: ubuntu-latest
     needs: [check, test, fmt, clippy]
@@ -85,18 +69,14 @@ jobs:
         with:
           profile: default
           toolchain: stable
-
       - uses: Swatinem/rust-cache@v1
       - run: rustup target add wasm32-unknown-unknown
       - name: Install Trunk
         uses: baptiste0928/cargo-install@v1
         with:
           crate: trunk
-      - name: Run cargo build first
-        run: cargo build --release
       - name: Build
-        run: trunk build --release
-
+        run: make build
       - name: Push
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/main' }}
