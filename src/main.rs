@@ -15,7 +15,7 @@ fn Header() -> Html {
     html! {
         <header>
             <h1>{ "macigè" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
-            <p class="p-1">{ "sample template CI workflow files for mobile apps" }</p>
+            <p class="p-1">{ "quickly generate template CI workflow files for mobile apps" }</p>
         </header>
     }
 }
@@ -145,8 +145,8 @@ impl Component for App {
             code_template: None,
             info_template: None,
             custom_inputs: CustomInputs {
-                build_variant_name: Some("DevDebug".to_string()),
-                build_variant_path: Some("devDebug/app-debug".to_string()),
+                build_variant_name: Some("Debug".to_string()),
+                build_variant_path: Some("debug/app-debug".to_string()),
                 publishing_format: PublishingFormat::Apk,
             },
         };
@@ -169,13 +169,13 @@ impl Component for App {
                 self.state.clear_text();
                 self.state.build_type = BuildType::from_str(&selected).unwrap();
                 if matches!(self.state.build_type, BuildType::Signed) {
-                    self.state.custom_inputs.build_variant_name = Some("ProdRelease".to_string());
+                    self.state.custom_inputs.build_variant_name = Some("Release".to_string());
                     self.state.custom_inputs.build_variant_path =
-                        Some("prodRelease/app-prod-release".to_string())
+                        Some("release/app-prod-release".to_string())
                 } else {
-                    self.state.custom_inputs.build_variant_name = Some("DevDebug".to_string());
+                    self.state.custom_inputs.build_variant_name = Some("Debug".to_string());
                     self.state.custom_inputs.build_variant_path =
-                        Some("devDebug/app-debug".to_string())
+                        Some("debug/app-debug".to_string())
                 }
             }
             Msg::UpdateBuildVariantName(value) => {
@@ -254,23 +254,46 @@ impl Component for App {
                 </p>
 
                 <div class="pickers">
-                <select class="picker-wide" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
-                <select class="picker-wide" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
-                <select class="picker-wide" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>
+
+                <div class="picker-wide">
+                <label for="ci-provider">{"CI Provider"}</label>
+                <select name="ci-provider" oninput={_on_platform_change} value={ self.state.platform.to_string() }>{ for self.to_options(self.state.platform) }</select>
+                </div>
+
+                <div class="picker-wide">
+                <label for="sdk">{"SDK"}</label>
+                <select name="sdk" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
+                </div>
+
+                <div class="picker-wide">
+                <label for="build-type">{"Build Type "}<span class="sm-t">{"("}<a href="https://developer.android.com/studio/publish/app-signing">{"signing apps"}</a>{")"}</span></label>
+                <select name="build-type" oninput={_on_build_type_change} value={ self.state.build_type.to_string() }>{ for self.to_options(self.state.build_type) }</select>
+                </div>
+
                 </div>
 
                 <div class="pickers">
                 if !matches!(self.state.sdk, SDK::Flutter) {
-                    <input oninput={_on_build_variant_name_change} type="text" class="picker-wide" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
+                    <div class="picker-wide">
+                    <label for="build-variant">{"Build Variant "}<span class="sm-t">{"("}<a href="https://developer.android.com/studio/build/build-variants">{"build variants"}</a>{")"}</span></label>
+                    <input name="build-variant" oninput={_on_build_variant_name_change} type="text" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
+                    </div>
                 }
-                <div class="picker-wider input-wrapper suffix">
-                <input name="input" oninput={_on_build_variant_path_change} class="build-variant" type="text" value={ self.state.custom_inputs.build_variant_path.to_owned() } />
-                <div class="input-suffix">{ ". " }{self.state.custom_inputs.publishing_format.to_string().to_lowercase()}</div>
+                <div class="picker-wider">
+                <label for="pub-format">{"Publishing Format"}</label>
+                <select aria-labelledby="pub-format" name="pub-format" oninput={_on_publishing_format_change} value={ self.state.custom_inputs.publishing_format.to_string() }>{ for self.to_options(self.state.custom_inputs.publishing_format) }</select>
                 </div>
+
                 </div>
 
                 <div class="pickers">
-                <select class="picker-wide" oninput={_on_publishing_format_change} value={ self.state.custom_inputs.publishing_format.to_string() }>{ for self.to_options(self.state.custom_inputs.publishing_format) }</select>
+                  <div class="picker-wider">
+                  <label for="output-path">{"Build Output Path "}<span class="sm-t">{"(relative path to the base output directory)"}</span></label>
+                  <div class="input-wrapper suffix">
+                  <input aria-labelledby="output-path" name="output-path" oninput={_on_build_variant_path_change} class="build-variant" type="text" value={ self.state.custom_inputs.build_variant_path.to_owned() } />
+                  <div class="input-suffix">{ ". " }{self.state.custom_inputs.publishing_format.to_string().to_lowercase()}</div>
+                  </div>
+                </div>
                 </div>
 
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>

@@ -60,8 +60,8 @@ jobs:
         {%- match publishing_format %}
         {%- when PublishingFormat::Aab %}
         name: release-aab
-        path: build/app/outputs/bundle/release/{{ build_variant_path }}.aab
+        path: build/app/outputs/bundle/{{ build_variant_path }}.aab
         {%- when PublishingFormat::Apk %}
         name: release-apk
-        path: build/app/outputs/apk/release/{{ build_variant_path }}.apk
+        path: build/app/outputs/apk/{{ build_variant_path }}.apk
         {%- endmatch %}

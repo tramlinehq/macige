@@ -51,7 +51,7 @@ jobs:
         {%- match publishing_format %}
         {%- when PublishingFormat::Aab %}
         name: debug-aab
-        path: build/app/outputs/bundle/debug/{{ build_variant_path }}.aab
+        path: build/app/outputs/bundle/{{ build_variant_path }}.aab
         {%- when PublishingFormat::Apk %}
         name: debug-apk
         path: build/app/outputs/flutter-apk/{{ build_variant_path }}.apk
