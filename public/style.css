@@ -26,15 +26,26 @@ header h1 {
   font-size: 72px;
 }
 
+input, select {
+  width: 100%;
+  line-height: 1.6 !important;
+  padding-right: 0 !important;
+}
+
 select:focus {
   outline: 2px dotted transparent !important;
   transition: outline 0.12s ease, outline-offset 0.12s ease;
 }
 
+
 pre {
   white-space: pre;
   word-wrap: break-word;
   overflow: auto;
+}
+
+p {
+  margin-top: 0.5em;
 }
 
 pre.code {
@@ -103,6 +114,8 @@ button.copy {
   grid-template-columns: repeat(6, 1fr);
   grid-column-gap: 0.5em;
   column-gap: 0.5em;
+  margin-bottom: 0.5rem;
+
 }
 
 .picker-wide {
@@ -112,6 +125,7 @@ button.copy {
 .picker-wider {
   grid-column: span 4;
 }
+
 
 @media screen and (max-width: 600px) {
   .pickers {
@@ -161,7 +175,7 @@ input.build-variant {
 }
 
 .sm-t {
-  font-size: 12px;
+  font-size: .8rem;
 }
 
 .p-1 {
