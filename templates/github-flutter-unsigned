@@ -43,7 +43,7 @@ jobs:
     {%- when PublishingFormat::Aab %}
     {%- let pf = "appbundle" %}
     {%- endmatch %}
-    - run: flutter build apk --debug {% raw %}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
+    - run: flutter build {{ pf }} --debug {% raw %}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
 
     # Upload generated apk to the artifacts.
     - uses: actions/upload-artifact@v3
