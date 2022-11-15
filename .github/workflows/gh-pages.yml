@@ -56,7 +56,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [check, test, fmt, clippy]
+    needs: [check, fmt, clippy]
     permissions:
       contents: write
     concurrency:
