@@ -21,7 +21,7 @@ pub struct CustomInputs {
 
 impl State {
     pub fn clear_text(&mut self) {
-        self.info_template = Some(String::new());
+        self.info_template = None;
         self.code_template = Some(String::new());
     }
 
@@ -43,7 +43,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
@@ -57,7 +57,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
@@ -76,7 +76,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::Native, BuildType::Unsigned) => {
@@ -95,7 +95,9 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                // let info_template = GithubNativeUnsignedInfo {};
+
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
@@ -109,7 +111,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
@@ -128,7 +130,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), Some(String::new()))
+                (Some(code_template.render().unwrap()), None)
             }
         };
 
@@ -178,7 +180,7 @@ pub enum PublishingFormat {
 }
 
 #[derive(Template)]
-#[template(path = "github-native-signed")]
+#[template(path = "workflows/github-native-signed")]
 struct GithubNativeSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
@@ -187,7 +189,7 @@ struct GithubNativeSigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "github-flutter-signed")]
+#[template(path = "workflows/github-flutter-signed")]
 struct GithubFlutterSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
@@ -195,7 +197,7 @@ struct GithubFlutterSigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "github-react-native-signed")]
+#[template(path = "workflows/github-react-native-signed")]
 struct GithubReactNativeSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
@@ -204,7 +206,7 @@ struct GithubReactNativeSigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "github-native-unsigned")]
+#[template(path = "workflows/github-native-unsigned")]
 struct GithubNativeUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
@@ -213,7 +215,7 @@ struct GithubNativeUnsigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "github-flutter-unsigned")]
+#[template(path = "workflows/github-flutter-unsigned")]
 struct GithubFlutterUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
@@ -221,10 +223,14 @@ struct GithubFlutterUnsigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "github-react-native-unsigned")]
+#[template(path = "workflows/github-react-native-unsigned")]
 struct GithubReactNativeUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
     build_variant_name: &'a str,
     build_variant_path: &'a str,
 }
+
+#[derive(Template)]
+#[template(path = "info/github-native-unsigned")]
+struct GithubNativeUnsignedInfo {}

@@ -83,16 +83,21 @@ fn DisplayInfo(props: &DisplayInfoProps) -> Html {
     let info_ref = use_node_ref();
 
     if let Some(info_el) = info_ref.cast::<HtmlElement>() {
-        info_el.set_inner_html(&props.info.clone().unwrap_or_default());
+        if let Some(info) = props.info.clone() {
+            info_el.set_inner_html(&info);
+        } else {
+            info_el.set_inner_html(&String::new());
+        }
     }
 
     html! {
-        <div ref={info_ref}></div>
+        <div ref={info_ref} class="mt-1"></div>
     }
 }
 
 #[derive(Properties, PartialEq, Eq)]
 pub struct DisplayCodeProps {
+    pub info: Option<String>,
     pub code: Option<String>,
 }
 
@@ -115,7 +120,11 @@ fn DisplayCode(props: &DisplayCodeProps) -> Html {
     }
 
     html! {
-        <pre class="code"><label>{ "YAML" }</label><code ref={code_ref}></code></pre>
+        <>
+            <DisplayInfo info={ props.info.clone().to_owned() } />
+            <CopyToClipboardButton code={ props.code.clone().to_owned() } />
+            <pre class="code"><label>{ "YAML" }</label><code ref={code_ref}></code></pre>
+        </>
     }
 }
 
@@ -299,9 +308,7 @@ impl Component for App {
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 
                 <div>
-                <DisplayInfo info={ self.state.info_template.to_owned() } />
-                <CopyToClipboardButton code={self.state.code_template.to_owned() } />
-                <DisplayCode code={ self.state.code_template.to_owned() } />
+                <DisplayCode code={ self.state.code_template.to_owned() } info={ self.state.info_template.to_owned() } />
                 </div>
 
                 </main>
