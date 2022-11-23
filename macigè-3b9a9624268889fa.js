@@ -727,15 +727,15 @@ function getImports() {
         const ret = getObject(arg0).writeText(getStringFromWasm0(arg1, arg2));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper414 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper419 = function(arg0, arg1, arg2) {
         const ret = makeMutClosure(arg0, arg1, 26, __wbg_adapter_20);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper494 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper499 = function(arg0, arg1, arg2) {
         const ret = makeMutClosure(arg0, arg1, 23, __wbg_adapter_23);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1176 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper1181 = function(arg0, arg1, arg2) {
         const ret = makeMutClosure(arg0, arg1, 23, __wbg_adapter_26);
         return addHeapObject(ret);
     };
@@ -774,7 +774,7 @@ function initSync(module) {
 
 async function init(input) {
     if (typeof input === 'undefined') {
-        input = new URL('macigè-cb12a106106deb2e_bg.wasm', import.meta.url);
+        input = new URL('macigè-3b9a9624268889fa_bg.wasm', import.meta.url);
     }
     const imports = getImports();
 
