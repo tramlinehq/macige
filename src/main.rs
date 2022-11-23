@@ -86,7 +86,7 @@ fn DisplayInfo(props: &DisplayInfoProps) -> Html {
         if let Some(info) = props.info.clone() {
             info_el.set_inner_html(&info);
         } else {
-            info_el.set_inner_html(&String::new());
+            info_el.set_inner_html("");
         }
     }
 
@@ -121,8 +121,8 @@ fn DisplayCode(props: &DisplayCodeProps) -> Html {
 
     html! {
         <>
-            <DisplayInfo info={ props.info.clone().to_owned() } />
-            <CopyToClipboardButton code={ props.code.clone().to_owned() } />
+            <DisplayInfo info={ props.info.clone() } />
+            <CopyToClipboardButton code={ props.code.clone() } />
             <pre class="code"><label>{ "YAML" }</label><code ref={code_ref}></code></pre>
         </>
     }
