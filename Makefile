@@ -1,3 +1,7 @@
+.PHONY trunk
+trunk:
+	cargo install --locked trunk
+
 .PHONY: serve
 serve:
 	cargo build
@@ -24,6 +28,9 @@ fmt:
 .PHONY: clean
 clean:
 	cargo clean
+
+.PHONY: release
+release: trunk build
 
 .PHONY: all
 all: check test fmt clippy build
