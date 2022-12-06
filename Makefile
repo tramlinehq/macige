@@ -1,4 +1,4 @@
-.PHONY trunk
+.PHONY: trunk
 trunk:
 	cargo install --locked trunk
 
