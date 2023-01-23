@@ -22,8 +22,8 @@ jobs:
   debug-build:
     runs-on: ubuntu-latest
 
-    {% raw -%}
     steps:
+     {%- raw %}
       - name: Setup versionName regardless of how this action is triggered
         id: version_name
         run: |
@@ -37,7 +37,7 @@ jobs:
           WORKFLOW_INPUT=${{ github.event.inputs.versionCode }}
           VERSION_CODE=${WORKFLOW_INPUT:-"1"}
           echo "ORG_GRADLE_PROJECT_VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-    {% endraw -%}
+      {%- endraw %}
 
       - uses: actions/checkout@v3
 
