@@ -2,10 +2,14 @@
 trunk:
 	cargo install --locked trunk
 
+.PHONY: wasm
+wasm:
+	rustup target add wasm32-unknown-unknown
+
 .PHONY: serve
 serve:
 	cargo build
-	trunk serve --open --address 0.0.0.0
+	trunk serve --open --address 127.0.0.1
 
 .PHONY: build
 build:
