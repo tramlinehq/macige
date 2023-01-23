@@ -1,4 +1,4 @@
-name: GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -55,6 +55,7 @@ jobs:
         with:
           command: clippy
           args: -- -D warnings
+
   deploy:
     runs-on: ubuntu-20.04
     needs: [check, fmt, clippy]
@@ -73,13 +74,17 @@ jobs:
           toolchain: stable
 
       - uses: Swatinem/rust-cache@v1
+
       - run: rustup target add wasm32-unknown-unknown
+      
       - name: Install Trunk
         uses: baptiste0928/cargo-install@v1
         with:
           crate: trunk
+      
       - name: Run cargo build first
         run: cargo build --release
+      
       - name: Build
         run: trunk build --release
 
