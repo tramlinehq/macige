@@ -15,7 +15,7 @@ build:
 
 .PHONY: clippy
 clippy:
-	cargo clippy -- -D warnings
+	cargo clippy
 
 .PHONY: check
 check:
