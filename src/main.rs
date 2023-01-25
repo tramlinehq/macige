@@ -14,8 +14,17 @@ use yew_hooks::prelude::*;
 fn Header() -> Html {
     html! {
         <header>
-            <h1>{ "macigè" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
-            <p class="p-1">{ "quickly generate template CI workflow files for mobile apps" }</p>
+            <h1>{ "macige" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
+            <p class="p-1">
+                <u>{ "m" }</u>
+                { "obile " }
+                <u>{ "a" }</u>
+                { "pp " }
+                <u>{ "CI" }</u>
+                { " workflow " }
+                <u>{ "ge" }</u>
+                { "nerator" }
+            </p>
         </header>
     }
 }
@@ -24,8 +33,8 @@ fn Header() -> Html {
 fn Footer() -> Html {
     html! {
         <footer>
-            <p>{ "Built in Rust " }<img src="/public/tram.svg" width="16" height="16" alt="tram-logo" />{ " by " }<a href="https://tramline.app">{ "Tramline" }</a></p>
-            <p class="sm-t">{ "If you found the tool helpful, or would like to improve it, drop us a " }<a href="https://github.com/tramlinehq/macige/issues">{ "note!" }</a></p>
+            <p>{ "Built in " }<a href="https://www.rust-lang.org/">{ "Rust " }</a><img src="/public/tram.svg" width="16" height="16" alt="tram-logo" />{ " by " }<a href="https://tramline.app">{ "Tramline" }</a></p>
+            <p class="sm-t">{ "If you found the tool helpful, or would like to improve it, send us a PR or raise on issue " }<a href="https://github.com/tramlinehq/macige/issues">{ "on GitHub!" }</a></p>
         </footer>
     }
 }
@@ -63,6 +72,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
 
     html! {
         <div class="copy-to-clipboard">
+            <p>{"Copy to clipboard"}</p>
             if *should_say_copied {
                 <p class="sm-t"><mark>{"Copied!"}</mark></p>
             }
