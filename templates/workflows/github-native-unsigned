@@ -44,15 +44,14 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
-
-      {%- match publishing_format %}
+      {% match publishing_format %}
       {%- when PublishingFormat::Apk %}
       - name: Build debug APK
         run: ./gradlew --no-daemon assemble{{ build_variant_name }}
       {%- when PublishingFormat::Aab %}
       - name: Build debug AAB
         run: ./gradlew --no-daemon bundle{{ build_variant_name }}
-      {%- endmatch %}
+      {% endmatch %}
 
       - name: Upload build file
         uses: actions/upload-artifact@v3
