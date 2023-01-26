@@ -95,9 +95,12 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                // let info_template = GithubNativeUnsignedInfo {};
+                let info_template = GithubNativeUnsignedInfo {};
 
-                (Some(code_template.render().unwrap()), None)
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
 
             (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
