@@ -43,7 +43,12 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), None)
+                let info_template = GithubNativeSignedInfo {};
+
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
 
             (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
@@ -57,7 +62,12 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), None)
+                let info_template = GithubFlutterSignedInfo {};
+
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
 
             (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
@@ -76,7 +86,12 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), None)
+                let info_template = GithubReactNativeSignedInfo {};
+
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
 
             (Platform::GitHub, SDK::Native, BuildType::Unsigned) => {
@@ -95,12 +110,7 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                let info_template = GithubNativeUnsignedInfo {};
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                (Some(code_template.render().unwrap()), None)
             }
 
             (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
@@ -235,5 +245,13 @@ struct GithubReactNativeUnsigned<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "info/github-native-unsigned")]
-struct GithubNativeUnsignedInfo {}
+#[template(path = "info/github-native-signed")]
+struct GithubNativeSignedInfo {}
+
+#[derive(Template)]
+#[template(path = "info/github-flutter-signed")]
+struct GithubFlutterSignedInfo {}
+
+#[derive(Template)]
+#[template(path = "info/github-react-native-signed")]
+struct GithubReactNativeSignedInfo {}

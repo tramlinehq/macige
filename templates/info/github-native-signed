@@ -1,0 +1,28 @@
+<p>
+<p>
+    When creating signed builds, you need a keystore file and a key properties file with the secrets on how to unlock the keystore.
+</p>
+
+To create a keystore, use Android Studio and <a href="https://developer.android.com/studio/publish/app-signing#generate-key">follow the official documentation</a>. Be careful and note the values you use for keystore password, key alias, and key password -- you will use these when creating the <pre>key.properties</pre> file.
+
+The <code>key.properties</code> file is a plain text file, and it should look like this:
+<code>
+    storeFile=FILENAME_OF_KEYSTORE_YOU_CREATED
+    storePassword=XXXXXX
+    keyAlias=XXXXXX
+    keyPassword=XXXXXX
+</code>
+
+
+
+
+<ol>
+<ul>first</ul>
+<ul>second</ul>
+<ul>third</ul>
+</ol>
+
+<code>
+</code>
+
+</p>
