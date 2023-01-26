@@ -1,6 +1,7 @@
 name: {{ title }}
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
       versionName:
@@ -13,7 +14,7 @@ on:
         default: '1'
 
 jobs:
-  build:
+  signed-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,26 +26,25 @@ jobs:
           java-version: 11
           cache: 'gradle'
 
-      # Setup the flutter environment.
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter environment
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
 
-      # Get flutter dependencies.
-      - run: flutter pub get
+      - name: Get Flutter dependencies
+        run: flutter pub get
 
       {% raw -%}
       - name: Retrieve secrets
         env:
-          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
-          KEY_PROPERTIES_B64: ${{ secrets.KEY_PROPERTIES_B64 }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_PROPERTIES_BASE64: ${{ secrets.KEY_PROPERTIES_BASE64 }}
         run: |
-          echo $KEYSTORE_B64 | base64 --decode > android/app/ueno-upload-keystore.jks
-          echo $KEY_PROPERTIES_B64 | base64 --decode > android/key.properties
-      {%- endraw %}
+          echo $KEYSTORE_BASE64 | base64 --decode > android/app/keystore.jks
+          echo $KEY_PROPERTIES_BASE64 | base64 --decode > android/key.properties
+      {% endraw %}
 
-      # Build.
       {%- let pf %}
       {%- match publishing_format %}
       {%- when PublishingFormat::Apk %}
@@ -52,10 +52,11 @@ jobs:
       {%- when PublishingFormat::Aab %}
       {%- let pf = "appbundle" %}
       {%- endmatch %}
-      - run: flutter build {{ pf }} --release {% raw -%}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
+      - name: Create the build
+        run: flutter build {{ pf }} --release {% raw -%}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
 
-      # Upload generated apk to the artifacts.
-      - uses: actions/upload-artifact@v3
+      - name: Upload generated build to artifacts
+        uses: actions/upload-artifact@v3
         with:
           {%- match publishing_format %}
           {%- when PublishingFormat::Aab %}
