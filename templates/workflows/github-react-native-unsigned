@@ -1,6 +1,7 @@
 name: {{ title }}
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
       versionName:
@@ -51,12 +52,11 @@ jobs:
 
       - name: Make gradlew executable
         run: cd android && chmod +x ./gradlew
-
       {% match publishing_format %}
-      {% when PublishingFormat::Apk %}
+      {%- when PublishingFormat::Apk %}
       - name: Build debug APK
         run: cd android && ./gradlew --no-daemon assemble{{ build_variant_name }}
-      {% when PublishingFormat::Aab %}
+      {%- when PublishingFormat::Aab %}
       - name: Build debug AAB
         run: cd android && ./gradlew --no-daemon bundle{{ build_variant_name }}
       {% endmatch %}
@@ -64,11 +64,11 @@ jobs:
       - name: Upload build file
         uses: actions/upload-artifact@v3
         with:
-          {% match publishing_format %}
-          {% when PublishingFormat::Aab %}
+          {%- match publishing_format %}
+          {%- when PublishingFormat::Aab %}
           name: debug-aab
           path: android/app/build/outputs/bundle/{{ build_variant_path }}.aab
-          {% when PublishingFormat::Apk %}
+          {%- when PublishingFormat::Apk %}
           name: debug-apk
           path: android/app/build/outputs/apk/{{ build_variant_path }}.apk
-          {% endmatch %}
+          {%- endmatch %}
