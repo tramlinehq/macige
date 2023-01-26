@@ -29,7 +29,7 @@ impl State {
         let (code_template, info_template) = match (self.platform, self.sdk, self.build_type) {
             (Platform::GitHub, SDK::Native, BuildType::Signed) => {
                 let code_template = GithubNativeSigned {
-                    title: "Android Play Store release build",
+                    title: "Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
@@ -48,7 +48,7 @@ impl State {
 
             (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
                 let code_template = GithubFlutterSigned {
-                    title: "Android Play Store release build",
+                    title: "Flutter Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
                     build_variant_path: &self
                         .custom_inputs
@@ -62,7 +62,7 @@ impl State {
 
             (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
                 let code_template = GithubReactNativeSigned {
-                    title: "Android Play Store release build",
+                    title: "React Native Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
@@ -105,7 +105,7 @@ impl State {
 
             (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
                 let code_template = GithubFlutterUnsigned {
-                    title: "Android debug build",
+                    title: "Flutter Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
                     build_variant_path: &self
                         .custom_inputs
@@ -119,7 +119,7 @@ impl State {
 
             (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
                 let code_template = GithubReactNativeUnsigned {
-                    title: "Android debug build",
+                    title: "React Native Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
