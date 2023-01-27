@@ -1,9 +1,17 @@
+@media (prefers-color-scheme: dark) {
+
+  a,
+  a:visited {
+    color: #5295dd;
+  }
+}
+
 body {
   font-family: sans-serif;
   background-color: #f6f6f6;
   color: #424242;
   overflow: scroll;
-  background: linear-gradient(rgba(255,255,255,.95), rgba(255,255,255,.95)), url("/public/cover.png");
+  background: linear-gradient(rgba(255, 255, 255, .95), rgba(255, 255, 255, .95)), url("/public/cover.png");
 }
 
 header {
