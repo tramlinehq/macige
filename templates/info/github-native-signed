@@ -1,28 +1,82 @@
 <p>
-<p>
-    When creating signed builds, you need a keystore file and a key properties file with the secrets on how to unlock the keystore.
-</p>
+    <h3>🚨 Read this first!</h3>
+    <p>
+        When creating signed builds, you need a <b>keystore</b> file and a <code>key.properties</code> file with the secrets on how to unlock the keystore.
+    </p>
 
-To create a keystore, use Android Studio and <a href="https://developer.android.com/studio/publish/app-signing#generate-key">follow the official documentation</a>. Be careful and note the values you use for keystore password, key alias, and key password -- you will use these when creating the <pre>key.properties</pre> file.
+    <h4>Keystore file</h4>
+    <p>
+        To create a keystore, use Android Studio and <a href="https://developer.android.com/studio/publish/app-signing#generate-key">follow the official documentation</a>. Be careful and note the values you use for keystore password, key alias, and key password -- you will use these when creating the <code>key.properties</code> file.
+    </p>
 
-The <code>key.properties</code> file is a plain text file, and it should look like this:
-<code>
-    storeFile=FILENAME_OF_KEYSTORE_YOU_CREATED
-    storePassword=XXXXXX
-    keyAlias=XXXXXX
-    keyPassword=XXXXXX
-</code>
+    <h4>key.properties file</h4>
+    <p>
+        The <code>key.properties</code> file is a plain text file, and it should look like this:
+        <pre>
+storeFile=FILENAME_OF_KEYSTORE_YOU_CREATED
+storePassword=XXXXXX
+keyAlias=XXXXXX
+keyPassword=XXXXXX</pre>
+    </p>
 
+    <p>
+        Here's a sample of a <code>key.properties</code> file. Note that the <code>storeFile</code> key <i>only has the name</i> of the store file without the path:
+        <pre>
+storeFile=keystore.jks
+storePassword=veryStrongPassword
+keyAlias=reasonableAlias
+keyPassword=anotherStrongPassword</pre>
+    </p>
 
+    <h3>Storing secrets in GitHub Actions</h3>
+    <p>
+        GitHub Actions only supports text-based secrets; uploading files is not allowed. So you will encode your keystore file and <code>key.properties</code> file using <a href="https://en.wikipedia.org/wiki/Base64">Base64</a>, and add the encoded text as secrets for GitHub Actions. When the workflow is running, it will fetch the secrets from GitHub, decode them, and put the files in the correct place so that the release build is generated correctly.
+    </p>
+    <p>
+        On macOS, run this on the command line to encode a file and copy the encoded string to your clipboard:
+        <pre>base64 -i FILENAME | pbcopy</pre>
+    </p>
+    <p>
+        Then, go to the Actions Secrets of your GitHub repository (Settings > Secrets and variables (in the sidebar) > Actions), and click "New repository secret". Ensure that the name of the secret is the same name that is being used in the Actions workflow file. We're using:
+        <ul>
+            <li><code>KEYSTORE_BASE64</code> for the keystore file</li>
+            <li><code>KEY_PROPERTIES_BASE64</code> for the key.properties file</li>
+        </ul>
+    </p>
 
+    <h3>Reading keystore data in build.gradle</h3>
+    <p>
+        Next, must modify your <code>build.gradle</code> file so that Gradle knows it has to read the keystore and associated <code>key.properties</code> data while creating a release build.
+    </p>
+    <p>
+        Add this <i>before</i> the <code>android</code> block of your app's <code>build.gradle</code> file. Note that this is the build file inside the <code>app</code> folder, and not the file in the root of the project.
+    </p>
+    <pre>
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}</pre>
+    <p>
+        Now, <i>inside</i> the <code>android</code> block, add these two blocks: <code>signingConfig</code> and <code>buildTypes</code>. If you already have either or both of those blocks, just add the <code>release</code> block to your existing block(s).
+    </p>
+    <pre>
+signingConfigs {
+    release {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+        storePassword keystoreProperties['storePassword']
+    }
+}
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}</pre>
+    <p>
+        That's all! Now when you run a release build, Gradle knows it has to use the <code>signingConfig.release</code> information, where it will read the storeFile, storePassword, keyAlias, and keyPassword from your <code>key.properties</code> file.
+    </p>
 
-<ol>
-<ul>first</ul>
-<ul>second</ul>
-<ul>third</ul>
-</ol>
-
-<code>
-</code>
-
+    <h3>All done! Now you can copy the workflow ⬇️</h3>
 </p>
