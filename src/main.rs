@@ -92,7 +92,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
     };
 
     html! {
-        <div class="copy-to-clipboard">
+        <div class="copy-to-clipboard mt-1">
             <p>{"Copy to clipboard"}</p>
             if *should_say_copied {
                 <p class="sm-t"><mark>{"Copied!"}</mark></p>
