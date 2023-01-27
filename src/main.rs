@@ -14,16 +14,16 @@ use yew_hooks::prelude::*;
 fn Header() -> Html {
     html! {
         <header>
-            <h1>{ "macige" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
-            <p class="p-1">
-                <u>{ "m" }</u>
-                { "obile " }
-                <u>{ "a" }</u>
-                { "pp " }
+            <h1 class="mt-header">{ "macige" }<img src="public/controller.svg" class="logo" alt="logo" width="32" height="32" /></h1>
+            <p class="p-1 subheading">
+                <u>{ "M" }</u>
+                { "OBILE " }
+                <u>{ "A" }</u>
+                { "PP " }
                 <u>{ "CI" }</u>
-                { " workflow " }
-                <u>{ "ge" }</u>
-                { "nerator" }
+                { " WORKFLOW " }
+                <u>{ "GE" }</u>
+                { "NERATOR" }
             </p>
         </header>
     }
@@ -33,8 +33,22 @@ fn Header() -> Html {
 fn Footer() -> Html {
     html! {
         <footer>
-            <p>{ "Built in " }<a href="https://www.rust-lang.org/">{ "Rust " }</a><img src="/public/tram.svg" width="16" height="16" alt="tram-logo" />{ " by " }<a href="https://tramline.app">{ "Tramline" }</a></p>
-            <p class="sm-t">{ "If you found the tool helpful, or would like to improve it, send us a PR or raise on issue " }<a href="https://github.com/tramlinehq/macige/issues">{ "on GitHub!" }</a></p>
+            <p>
+                { "Built using " }
+                <a href="https://yew.rs/">{ "yew" }</a>
+                { ", "}
+                <a href="https://simplecss.org/">{ "simple.css" }</a>
+                { ", and "}
+                <a href="https://highlightjs.org/">{ "highlight.js" }</a>
+                { " by " }
+                <a href="https://tramline.app/">{ "Tramline" }</a>
+                { "." }
+            </p>
+            <p>
+                { "Want to improve something? Send us a PR or create an issue " }
+                <a href="https://github.com/tramlinehq/macige/">{ "on GitHub" }</a>
+                { "!" }
+            </p>
         </footer>
     }
 }
@@ -101,7 +115,7 @@ fn DisplayInfo(props: &DisplayInfoProps) -> Html {
     }
 
     html! {
-        <div ref={info_ref} class="mt-1"></div>
+        <div ref={info_ref}></div>
     }
 }
 
