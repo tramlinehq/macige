@@ -1,13 +1,5 @@
-@font-face {
-  font-family: "Reforma";
-  src: url("/public/reforma.1918-gris.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-
 body {
-  font-family: "Reforma", sans-serif;
+  font-family: sans-serif;
   background-color: #f6f6f6;
   color: #424242;
   overflow: scroll;
