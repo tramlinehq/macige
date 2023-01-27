@@ -1,4 +1,6 @@
-# macige
+# macige 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 → the _m_-obile _a_-pp _c_-ontinuous _i_-ntegration workflow _ge_-nerator
 
 Built using [yew](https://yew.rs "yew-rs"), [simple.css](https://simplecss.org/ "simple-css") and [highlight.js](https://highlightjs.org "highlight-js").
