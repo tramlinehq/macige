@@ -5,7 +5,7 @@ use strum_macros::{Display, EnumIter, EnumString};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct State {
     pub platform: Platform,
-    pub sdk: SDK,
+    pub sdk: Sdk,
     pub build_type: BuildType,
     pub custom_inputs: CustomInputs,
     pub code_template: Option<String>,
@@ -27,7 +27,7 @@ impl State {
 
     pub fn gen_templates(&mut self) {
         let (code_template, info_template) = match (self.platform, self.sdk, self.build_type) {
-            (Platform::GitHub, SDK::Native, BuildType::Signed) => {
+            (Platform::GitHub, Sdk::Native, BuildType::Signed) => {
                 let code_template = GithubNativeSigned {
                     title: "Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -51,7 +51,7 @@ impl State {
                 )
             }
 
-            (Platform::GitHub, SDK::Flutter, BuildType::Signed) => {
+            (Platform::GitHub, Sdk::Flutter, BuildType::Signed) => {
                 let code_template = GithubFlutterSigned {
                     title: "Flutter Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -70,7 +70,7 @@ impl State {
                 )
             }
 
-            (Platform::GitHub, SDK::ReactNative, BuildType::Signed) => {
+            (Platform::GitHub, Sdk::ReactNative, BuildType::Signed) => {
                 let code_template = GithubReactNativeSigned {
                     title: "React Native Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -94,7 +94,7 @@ impl State {
                 )
             }
 
-            (Platform::GitHub, SDK::Native, BuildType::Unsigned) => {
+            (Platform::GitHub, Sdk::Native, BuildType::Unsigned) => {
                 let code_template = GithubNativeUnsigned {
                     title: "Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -113,7 +113,7 @@ impl State {
                 (Some(code_template.render().unwrap()), None)
             }
 
-            (Platform::GitHub, SDK::Flutter, BuildType::Unsigned) => {
+            (Platform::GitHub, Sdk::Flutter, BuildType::Unsigned) => {
                 let code_template = GithubFlutterUnsigned {
                     title: "Flutter Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -127,7 +127,7 @@ impl State {
                 (Some(code_template.render().unwrap()), None)
             }
 
-            (Platform::GitHub, SDK::ReactNative, BuildType::Unsigned) => {
+            (Platform::GitHub, Sdk::ReactNative, BuildType::Unsigned) => {
                 let code_template = GithubReactNativeUnsigned {
                     title: "React Native Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
@@ -163,7 +163,7 @@ pub enum Platform {
 #[derive(
     Clone, Copy, Debug, EnumIter, EnumString, Display, PartialEq, Serialize, Deserialize, Eq,
 )]
-pub enum SDK {
+pub enum Sdk {
     #[strum(serialize = "Native App")]
     Native,
     #[strum(serialize = "Flutter")]

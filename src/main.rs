@@ -1,6 +1,6 @@
 mod bindings;
 mod state;
-use state::{BuildType, CustomInputs, Platform, PublishingFormat, State, SDK};
+use state::{BuildType, CustomInputs, Platform, PublishingFormat, Sdk, State};
 use std::fmt;
 use std::str::FromStr;
 use strum::IntoEnumIterator;
@@ -162,7 +162,7 @@ fn DisplayCode(props: &DisplayCodeProps) -> Html {
 enum Msg {
     Generate,
     UpdatePlatform(String),
-    UpdateSDK(String),
+    UpdateSdk(String),
     UpdateBuildType(String),
     UpdateBuildVariantName(String),
     UpdateBuildVariantPath(String),
@@ -180,7 +180,7 @@ impl Component for App {
     fn create(_ctx: &Context<Self>) -> Self {
         let state = State {
             platform: Platform::GitHub,
-            sdk: SDK::Native,
+            sdk: Sdk::Native,
             build_type: BuildType::Unsigned,
             code_template: None,
             info_template: None,
@@ -201,9 +201,9 @@ impl Component for App {
                 self.state.clear_text();
                 self.state.platform = Platform::from_str(&selected).unwrap();
             }
-            Msg::UpdateSDK(selected) => {
+            Msg::UpdateSdk(selected) => {
                 self.state.clear_text();
-                self.state.sdk = SDK::from_str(&selected).unwrap();
+                self.state.sdk = Sdk::from_str(&selected).unwrap();
             }
             Msg::UpdateBuildType(selected) => {
                 self.state.clear_text();
@@ -248,7 +248,7 @@ impl Component for App {
         let _on_sdk_change = link.batch_callback(|e: InputEvent| {
             e.prevent_default();
             let input: HtmlSelectElement = e.target_unchecked_into();
-            Some(Msg::UpdateSDK(input.value()))
+            Some(Msg::UpdateSdk(input.value()))
         });
 
         let _on_build_type_change = link.batch_callback(|e: InputEvent| {
@@ -301,7 +301,7 @@ impl Component for App {
                 </div>
 
                 <div class="picker-wide">
-                <label for="sdk">{"SDK"}</label>
+                <label for="sdk">{"Sdk"}</label>
                 <select name="sdk" oninput={_on_sdk_change} value={ self.state.sdk.to_string() }>{ for self.to_options(self.state.sdk) }</select>
                 </div>
 
@@ -313,7 +313,7 @@ impl Component for App {
                 </div>
 
                 <div class="pickers">
-                if !matches!(self.state.sdk, SDK::Flutter) {
+                if !matches!(self.state.sdk, Sdk::Flutter) {
                     <div class="picker-wide">
                     <label for="build-variant">{"Build Variant "}<span class="sm-t">{"("}<a href="https://developer.android.com/studio/build/build-variants">{"build variants"}</a>{")"}</span></label>
                     <input id="build-variant" oninput={_on_build_variant_name_change} type="text" value={ self.state.custom_inputs.build_variant_name.to_owned() } />
