@@ -1,17 +1,17 @@
-@font-face {
-  font-family: "Reforma";
-  src: url("/public/reforma.1918-gris.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
+@media (prefers-color-scheme: dark) {
+
+  a,
+  a:visited {
+    color: #5295dd;
+  }
 }
 
 body {
-  font-family: "Reforma", sans-serif;
+  font-family: sans-serif;
   background-color: #f6f6f6;
   color: #424242;
   overflow: scroll;
-  background: linear-gradient(rgba(255,255,255,.95), rgba(255,255,255,.95)), url("/public/cover.png");
+  background: linear-gradient(rgba(255, 255, 255, .95), rgba(255, 255, 255, .95)), url("/public/cover.webp");
 }
 
 header {
@@ -21,13 +21,17 @@ header {
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-button:focus { filter: none; }
+button:focus {
+  filter: none;
+}
 
 header h1 {
   font-size: 72px;
+  font-weight: 100;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   line-height: 1.6 !important;
   padding-right: 0 !important;
@@ -100,7 +104,7 @@ button.copy {
   border-radius: 5px;
   padding: 1.5rem;
   margin: 2rem 0;
-  color: inherit;
+  color: var(--text-light);
 }
 
 .copy-to-clipboard {
@@ -176,10 +180,11 @@ input.build-variant {
   padding: 5px;
   background-color: #d0ccc8;
   margin-left: 0.3em;
+  margin-bottom: 0.1em;
 }
 
 .sm-t {
-  font-size: .8rem;
+  font-size: .8em;
 }
 
 .p-1 {
@@ -188,4 +193,54 @@ input.build-variant {
 
 .mt-1 {
   margin-top: 2em;
+}
+
+.mt-header {
+  margin-top: 1em;
+}
+
+.subheading {
+  font-weight: bold;
+  text-underline-offset: 0.3em;
+
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+body>footer {
+  font-size: inherit;
+}
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+
+  0%,
+  100% {
+    transform: rotate(0)
+  }
+
+  20%,
+  60% {
+    transform: rotate(-25deg)
+  }
+
+  40%,
+  80% {
+    transform: rotate(10deg)
+  }
+}
+
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation: none
+  }
+
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+  }
 }
