@@ -1,8 +1,14 @@
 @media (prefers-color-scheme: dark) {
+  button.cta {
+    color: #fff;
+  }
 
-  a,
-  a:visited {
-    color: #5295dd;
+  .input-suffix {
+    color: #fff;
+  }
+
+  a, a:visited {
+    color: var(--code);
   }
 }
 
