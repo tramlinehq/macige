@@ -5,25 +5,25 @@
 
 🌏 [macige.tramline.app](https://macige.tramline.app)
 
-## setup dev
+## setup dev 👩‍💻
 
 1. install [rust](https://www.rust-lang.org/)
 1. install trunk: `make trunk`
 1. install wasm support: `make wasm`
 
-## run dev
+## run dev 🐞
 
 ```bash
 make serve
 ```
 
-## release
+## release 📦
 
 ```bash
 make all
 ```
 
-## thanks
+## thanks 🥰
 
 ### uses 
 - [yew](https://yew.rs "yew-rs")
