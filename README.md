@@ -3,7 +3,7 @@
 
 → the _m_-obile _a_-pp _c_-ontinuous _i_-ntegration workflow _ge_-nerator
 
-Built using [yew](https://yew.rs "yew-rs"), [simple.css](https://simplecss.org/ "simple-css") and [highlight.js](https://highlightjs.org "highlight-js").
+🌏 [macige.tramline.app](https://macige.tramline.app)
 
 ## setup dev
 
@@ -22,3 +22,13 @@ make serve
 ```bash
 make all
 ```
+
+## thanks
+
+### uses 
+- [yew](https://yew.rs "yew-rs")
+- [simple.css](https://simplecss.org/ "simple-css") 
+- [highlight.js](https://highlightjs.org "highlight-js") 
+
+### infra 
+deployed on [render.com](https://render.com/docs/static-sites) 
