@@ -93,7 +93,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
 
     html! {
         <div class="copy-to-clipboard mt-1">
-            <p>{"Copy to clipboard"}</p>
+            <p class="sm-t">{"Copy to clipboard"}</p>
             if *should_say_copied {
                 <p class="sm-t"><mark>{"Copied!"}</mark></p>
             }
@@ -345,7 +345,7 @@ impl Component for App {
 
                 <label>
                 <input aria-labelledby="show-versions" type="checkbox" class="show-versions" name="show-versions" onclick={ctx.link().callback(|_| Msg::ToggleShowingVersions)} checked={ self.state.custom_inputs.show_versions.to_owned() } />
-                  {"Show versionCode & versionName"}
+                  {"Add supporting code for "}<mark>{"versionCode"}</mark>{" & "}<mark>{"versionName"}</mark>
                 </label>
                 <br/>
 
