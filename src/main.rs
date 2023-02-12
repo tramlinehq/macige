@@ -345,7 +345,7 @@ impl Component for App {
 
                 <label>
                 <input aria-labelledby="show-versions" type="checkbox" class="show-versions" name="show-versions" onclick={ctx.link().callback(|_| Msg::ToggleShowingVersions)} checked={ self.state.custom_inputs.show_versions.to_owned() } />
-                  {"Add supporting code for "}<mark>{"versionCode"}</mark>{" & "}<mark>{"versionName"}</mark>
+                  {"Include supporting code for "}<mark>{"versionCode"}</mark>{" & "}<mark>{"versionName"}</mark>
                 </label>
                 <br/>
 
