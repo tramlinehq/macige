@@ -167,6 +167,7 @@ enum Msg {
     UpdateBuildVariantName(String),
     UpdateBuildVariantPath(String),
     UpdatePublishingFormat(String),
+    ToggleShowingVersions,
 }
 
 struct App {
@@ -188,6 +189,7 @@ impl Component for App {
                 build_variant_name: Some("Debug".to_string()),
                 build_variant_path: Some("debug/app-debug".to_string()),
                 publishing_format: PublishingFormat::Apk,
+                show_versions: true,
             },
         };
 
@@ -230,6 +232,11 @@ impl Component for App {
                 self.state.clear_text();
                 self.state.custom_inputs.publishing_format =
                     PublishingFormat::from_str(&selected).unwrap();
+            }
+            Msg::ToggleShowingVersions => {
+                self.state.clear_text();
+                let status = !self.state.custom_inputs.show_versions;
+                self.state.custom_inputs.show_versions = status;
             }
         }
 
@@ -335,6 +342,12 @@ impl Component for App {
                   </div>
                 </div>
                 </div>
+
+                <label>
+                <input aria-labelledby="show-versions" type="checkbox" class="show-versions" name="show-versions" onclick={ctx.link().callback(|_| Msg::ToggleShowingVersions)} checked={ self.state.custom_inputs.show_versions.to_owned() } />
+                  {"Show versionCode & versionName"}
+                </label>
+                <br/>
 
                 <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 

@@ -36,7 +36,7 @@ header h1 {
   font-weight: 100;
 }
 
-input,
+input[type=text],
 select {
   width: 100%;
   line-height: 1.6 !important;
@@ -151,6 +151,10 @@ button.copy {
   .picker-wider {
     grid-column: span 1;
   }
+}
+
+.show-versions {
+  margin-right: 0.5em;
 }
 
 .input-wrapper {

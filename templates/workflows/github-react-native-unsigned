@@ -1,5 +1,6 @@
 name: {{ title }}
 
+{% if show_versions -%}
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -13,11 +14,13 @@ on:
         required: true
         default: '1'
 
+{% endif -%}
+
 jobs:
   debug-build:
     runs-on: ubuntu-latest
-
-    {% raw -%}
+      {% if show_versions -%}
+      {%- raw %}
     steps:
       - name: Setup versionName regardless of how this action is triggered
         id: version_name
@@ -32,7 +35,8 @@ jobs:
           WORKFLOW_INPUT=${{ github.event.inputs.versionCode }}
           VERSION_CODE=${WORKFLOW_INPUT:-"1"}
           echo "ORG_GRADLE_PROJECT_VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-    {%- endraw %}
+      {%- endraw %}
+      {% endif -%}
 
       - uses: actions/checkout@v3
 

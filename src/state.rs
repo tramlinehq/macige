@@ -17,6 +17,7 @@ pub struct CustomInputs {
     pub build_variant_name: Option<String>,
     pub build_variant_path: Option<String>,
     pub publishing_format: PublishingFormat,
+    pub show_versions: bool,
 }
 
 impl State {
@@ -31,6 +32,7 @@ impl State {
                 let code_template = GithubNativeSigned {
                     title: "Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
                         .build_variant_name
@@ -55,6 +57,7 @@ impl State {
                 let code_template = GithubFlutterSigned {
                     title: "Flutter Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_path: &self
                         .custom_inputs
                         .build_variant_path
@@ -74,6 +77,7 @@ impl State {
                 let code_template = GithubReactNativeSigned {
                     title: "React Native Android release build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
                         .build_variant_name
@@ -98,6 +102,7 @@ impl State {
                 let code_template = GithubNativeUnsigned {
                     title: "Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
                         .build_variant_name
@@ -117,6 +122,7 @@ impl State {
                 let code_template = GithubFlutterUnsigned {
                     title: "Flutter Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_path: &self
                         .custom_inputs
                         .build_variant_path
@@ -131,6 +137,7 @@ impl State {
                 let code_template = GithubReactNativeUnsigned {
                     title: "React Native Android debug build",
                     publishing_format: &self.custom_inputs.publishing_format.to_owned(),
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
                     build_variant_name: &self
                         .custom_inputs
                         .build_variant_name
@@ -197,6 +204,7 @@ pub enum PublishingFormat {
 struct GithubNativeSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_name: &'a str,
     build_variant_path: &'a str,
 }
@@ -206,6 +214,7 @@ struct GithubNativeSigned<'a> {
 struct GithubFlutterSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_path: &'a str,
 }
 
@@ -214,6 +223,7 @@ struct GithubFlutterSigned<'a> {
 struct GithubReactNativeSigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_name: &'a str,
     build_variant_path: &'a str,
 }
@@ -223,6 +233,7 @@ struct GithubReactNativeSigned<'a> {
 struct GithubNativeUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_name: &'a str,
     build_variant_path: &'a str,
 }
@@ -232,6 +243,7 @@ struct GithubNativeUnsigned<'a> {
 struct GithubFlutterUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_path: &'a str,
 }
 
@@ -240,6 +252,7 @@ struct GithubFlutterUnsigned<'a> {
 struct GithubReactNativeUnsigned<'a> {
     title: &'a str,
     publishing_format: &'a PublishingFormat,
+    show_versions: &'a bool,
     build_variant_name: &'a str,
     build_variant_path: &'a str,
 }
