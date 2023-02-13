@@ -113,6 +113,10 @@ button.copy {
   color: var(--text-light);
 }
 
+.upcase {
+  text-transform: uppercase;
+}
+
 .copy-to-clipboard {
   display: flex;
   justify-content: right;
@@ -193,8 +197,17 @@ input.build-variant {
   margin-bottom: 0.1em;
 }
 
+mark {
+  padding-top: 0.3em;
+  vertical-align: bottom;
+}
+
 .sm-t {
   font-size: .8em;
+}
+
+.xs-t {
+  font-size: .6em;
 }
 
 .p-1 {
@@ -224,7 +237,6 @@ h4 {
 }
 
 @keyframes octocat-wave {
-
   0%,
   100% {
     transform: rotate(0)

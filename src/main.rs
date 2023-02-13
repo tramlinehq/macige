@@ -93,9 +93,9 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
 
     html! {
         <div class="copy-to-clipboard mt-1">
-            <p class="sm-t">{"Copy to clipboard"}</p>
+            <p class="xs-t upcase">{"Copy to clipboard"}</p>
             if *should_say_copied {
-                <p class="sm-t"><mark>{"Copied!"}</mark></p>
+                <p class="xs-t upcase"><mark>{"Copied!"}</mark></p>
             }
             <button class="copy" onclick={onclick}>
             <img src="/public/clipboard-text.svg" width="24" height="24" alt="copy to clipboard" />
@@ -345,7 +345,7 @@ impl Component for App {
 
                 <label>
                 <input aria-labelledby="show-versions" type="checkbox" class="show-versions" name="show-versions" onclick={ctx.link().callback(|_| Msg::ToggleShowingVersions)} checked={ self.state.custom_inputs.show_versions.to_owned() } />
-                  {"Include supporting code for "}<mark>{"versionCode"}</mark>{" & "}<mark>{"versionName"}</mark>
+                  {"Include supporting configuration for "}<mark>{"build numbers"}</mark>{" & "}<mark>{"build names"}</mark>
                 </label>
                 <br/>
 
