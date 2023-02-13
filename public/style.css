@@ -12,6 +12,10 @@
   }
 }
 
+code {
+  color: var(--accent);
+}
+
 body {
   font-family: sans-serif;
   background-color: #f6f6f6;
