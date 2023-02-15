@@ -45,7 +45,9 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                let info_template = GithubNativeSignedInfo {};
+                let info_template = GithubNativeSignedInfo {
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
+                };
 
                 (
                     Some(code_template.render().unwrap()),
@@ -65,7 +67,9 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                let info_template = GithubFlutterSignedInfo {};
+                let info_template = GithubFlutterSignedInfo {
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
+                };
 
                 (
                     Some(code_template.render().unwrap()),
@@ -90,7 +94,9 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                let info_template = GithubReactNativeSignedInfo {};
+                let info_template = GithubReactNativeSignedInfo {
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
+                };
 
                 (
                     Some(code_template.render().unwrap()),
@@ -259,12 +265,18 @@ struct GithubReactNativeUnsigned<'a> {
 
 #[derive(Template)]
 #[template(path = "info/github-native-signed")]
-struct GithubNativeSignedInfo {}
+struct GithubNativeSignedInfo<'a> {
+    show_versions: &'a bool,
+}
 
 #[derive(Template)]
 #[template(path = "info/github-flutter-signed")]
-struct GithubFlutterSignedInfo {}
+struct GithubFlutterSignedInfo<'a> {
+    show_versions: &'a bool,
+}
 
 #[derive(Template)]
 #[template(path = "info/github-react-native-signed")]
-struct GithubReactNativeSignedInfo {}
+struct GithubReactNativeSignedInfo<'a> {
+    show_versions: &'a bool,
+}

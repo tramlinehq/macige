@@ -1,3 +1,6 @@
+{% if show_versions %}
+{% endif -%}
+
 <p>
     <h3>🚨 Read this first!</h3>
     <p>
