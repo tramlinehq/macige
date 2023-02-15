@@ -52,7 +52,6 @@ select:focus {
   transition: outline 0.12s ease, outline-offset 0.12s ease;
 }
 
-
 pre {
   white-space: pre;
   word-wrap: break-word;
@@ -106,6 +105,11 @@ button.copy {
   font-size: 1em !important;
   background-color: lightgrey !important;
   padding: 2px;
+}
+
+input#output-path {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .notice {
