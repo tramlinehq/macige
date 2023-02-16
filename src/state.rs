@@ -170,7 +170,14 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), None)
+                let info_template = GithubReactNativeUnsignedInfo {
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
+                };
+
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
         };
 
@@ -304,5 +311,11 @@ struct GithubFlutterUnsignedInfo<'a> {
 #[derive(Template)]
 #[template(path = "info/github-react-native-signed")]
 struct GithubReactNativeSignedInfo<'a> {
+    show_versions: &'a bool,
+}
+
+#[derive(Template)]
+#[template(path = "info/github-react-native-unsigned")]
+struct GithubReactNativeUnsignedInfo<'a> {
     show_versions: &'a bool,
 }
