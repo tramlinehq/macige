@@ -1,0 +1,16 @@
+{% if show_versions %}
+<p>
+    <h3>#️⃣  Dynamic app versioning</h3>
+    <p>
+        By using <code>workflow_dispatch</code> in GitHub Actions, you can give arguments to a workflow run. We use this to pass build version information to the Flutter build tool, which is useful if a different system, for e.g. <a href="https://github.com/tramlinehq/tramline/" target="_blank">Tramline</a>, manages versioning for you. Here's how to do it:
+    </p>
+
+    <p>
+        Flutter makes it very easy to specify a build code and number during the build process. We simply use the <code>--build-code</code> and <code>--build-number</code> arguments.
+    </p>
+
+    <p>
+        You can see this below in the generated workflow file.
+    </p>
+</p>
+{% endif -%}

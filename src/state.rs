@@ -143,7 +143,14 @@ impl State {
                         .unwrap_or_default(),
                 };
 
-                (Some(code_template.render().unwrap()), None)
+                let info_template = GithubFlutterUnsignedInfo {
+                    show_versions: &self.custom_inputs.show_versions.to_owned(),
+                };
+
+                (
+                    Some(code_template.render().unwrap()),
+                    Some(info_template.render().unwrap()),
+                )
             }
 
             (Platform::GitHub, Sdk::ReactNative, BuildType::Unsigned) => {
@@ -285,6 +292,12 @@ struct GithubNativeUnsignedInfo<'a> {
 #[derive(Template)]
 #[template(path = "info/github-flutter-signed")]
 struct GithubFlutterSignedInfo<'a> {
+    show_versions: &'a bool,
+}
+
+#[derive(Template)]
+#[template(path = "info/github-flutter-unsigned")]
+struct GithubFlutterUnsignedInfo<'a> {
     show_versions: &'a bool,
 }
 

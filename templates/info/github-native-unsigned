@@ -2,7 +2,7 @@
 <p>
     <h3>#️⃣  Dynamic app versioning</h3>
     <p>
-        By using the <code>workflow_dispatch</code> in GitHub Actions, you can dynamically pass versioning information to the build file. This is useful if a different system, for e.g. <a href="https://github.com/tramlinehq/tramline/" target="_blank">Tramline</a>, manages build versioning for you. Here's how to do it:
+        By using <code>workflow_dispatch</code> in GitHub Actions, you can give arguments to a workflow run. We use this to pass build version information to the gradle file, which is useful if a different system, for e.g. <a href="https://github.com/tramlinehq/tramline/" target="_blank">Tramline</a>, manages versioning for you. Here's how to do it:
     </p>
 
     <p>
@@ -29,14 +29,11 @@ if (project.properties["VERSION_NAME"] != null) {
     </p>
 
     <p>
-        Next, we take the versioning information from the Actions workflow and set it as environment variables. The naming scheme must match the convention exactly, as specified in the <a href="https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties">gradle documentation</a>, which will allow us to read the data in the build file.
-        <pre>
-ORG_GRADLE_PROJECT_VERSION_NAME='4.2.0'
-ORG_GRADLE_PROJECT_VERSION_CODE='20012502'</pre>
-
+        This tells gradle to read versionCode and versionName from the project properties, if available. Next, we set the version information in the workflow run as environment variables. The naming scheme of the variables must match the convention exactly, as specified in the <a href="https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties">gradle documentation</a>.
     </p>
+
     <p>
-        You can see this below in the generated workflow file.
+        As you can see in the generated workflow file below, <code>versionCode</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_CODE</code>, and <code>versionName</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_NAME</code>.
     </p>
 </p>
 {% endif -%}

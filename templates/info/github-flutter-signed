@@ -1,8 +1,5 @@
-{% if show_versions %}
-{% endif -%}
-
 <p>
-    <h3>🚨 Read this first!</h3>
+    <h3>🔐 Setup for signed builds</h3>
     <p>
         When creating signed builds, you need a <b>keystore</b> file and a <code>key.properties</code> file with the secrets on how to unlock the keystore.
     </p>
@@ -80,6 +77,23 @@ buildTypes {
     <p>
         That's all! Now when you run a release build, Gradle knows it has to use the <code>signingConfig.release</code> information, where it will read the storeFile, storePassword, keyAlias, and keyPassword from your <code>key.properties</code> file.
     </p>
-
-    <h3>All done! Now you can copy the workflow ⬇️</h3>
 </p>
+
+{% if show_versions %}
+<p>
+    <h3>#️⃣  Dynamic app versioning</h3>
+    <p>
+        By using <code>workflow_dispatch</code> in GitHub Actions, you can give arguments to a workflow run. We use this to pass build version information to the Flutter build tool, which is useful if a different system, for e.g. <a href="https://github.com/tramlinehq/tramline/" target="_blank">Tramline</a>, manages versioning for you. Here's how to do it:
+    </p>
+
+    <p>
+        Flutter makes it very easy to specify a build code and number during the build process. We simply use the <code>--build-code</code> and <code>--build-number</code> arguments.
+    </p>
+
+    <p>
+        You can see this below in the generated workflow file.
+    </p>
+</p>
+{% endif -%}
+
+<h3>All done! Now you can copy the workflow ⬇️</h3>
