@@ -1,5 +1,5 @@
 # macige 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/tramlinehq/macige/blob/master/LICENSE)
 
 → the _m_-obile _a_-pp _c_-ontinuous _i_-ntegration workflow _ge_-nerator
 
