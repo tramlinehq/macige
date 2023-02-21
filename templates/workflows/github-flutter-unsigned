@@ -45,9 +45,14 @@ jobs:
       {%- when PublishingFormat::Aab %}
       {%- let pf = "appbundle" %}
       {%- endmatch %}
+
+      {% if show_versions -%}
       - name: Create the build
         run: flutter build {{ pf }} --debug {% raw %}--build-number=${{ github.event.inputs.versionCode }} --build-name=${{ github.event.inputs.versionName }}{%- endraw %}
-
+      {% else -%}
+      - name: Create the build
+        run: flutter build {{ pf }} --debug
+      {% endif %}
       - name: Upload generated build to artifacts
         uses: actions/upload-artifact@v3
         with:
