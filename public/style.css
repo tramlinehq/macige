@@ -8,12 +8,12 @@
   }
 
   a, a:visited {
-    color: var(--code);
+    color: #1298ff;
   }
 }
 
 code {
-  color: var(--accent);
+  color: var(--code);
 }
 
 body {
