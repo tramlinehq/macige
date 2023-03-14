@@ -349,7 +349,7 @@ impl Component for App {
                 </label>
                 <br/>
 
-                <div><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
+                <div><button class="cta plausible-event-name=Generate+workflow" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 
                 <div>
                 <DisplayCode code={ self.state.code_template.to_owned() } info={ self.state.info_template.to_owned() } />
