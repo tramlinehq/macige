@@ -97,7 +97,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
             if *should_say_copied {
                 <p class="xs-t upcase"><mark>{"Copied!"}</mark></p>
             }
-            <button class="copy" onclick={onclick}>
+            <button class="copy plausible-event-name=Copy+workflow+to+clipboard" onclick={onclick}>
             <img src="/public/clipboard-text.svg" width="24" height="24" alt="copy to clipboard" />
             </button>
         </div>
