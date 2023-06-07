@@ -62,6 +62,30 @@ impl State {
         self.info_template = info_template;
     }
 
+    fn github_native_signed_info(&self) -> String {
+        GithubNativeSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_flutter_signed_info(&self) -> String {
+        GithubFlutterSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_react_native_signed_info(&self) -> String {
+        GithubReactNativeSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
     fn github_native_signed(&self) -> String {
         GithubNativeSigned {
             title: "Android release build",
@@ -179,8 +203,6 @@ impl State {
 pub enum AppPlatform {
     #[strum(serialize = "Android")]
     Android,
-    #[strum(serialize = "iOS")]
-    Ios,
 }
 
 #[derive(

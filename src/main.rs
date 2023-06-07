@@ -328,7 +328,7 @@ impl Component for App {
 
                 <div class="pickers">
                 <div class="picker-wide">
-                <label for="app-platform">{"Platform"}</label>
+                <label for="app-platform">{"Platform"}<div class="sm-t">{ "(iOS workflows coming soon!)" }</div></label>
                 <select name="app-platform" oninput={_on_app_platform_change} value={ self.state.app_platform.to_string() }>{ for self.to_options(self.state.app_platform) }</select>
                 </div>
                 </div>

@@ -81,5 +81,5 @@ buildTypes {
         That's all! Now when you run a release build, Gradle knows it has to use the <code>signingConfig.release</code> information, where it will read the storeFile, storePassword, keyAlias, and keyPassword from your <code>key.properties</code> file.
     </p>
 
-    <h3>All done! Now you can copy the workflow ⬇️</h3>
+    <h4>All done! Now you can copy the workflow ⬇️</h4>
 </p>
