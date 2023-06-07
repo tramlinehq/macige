@@ -310,13 +310,31 @@ struct GithubNativeSignedInfo<'a> {
 }
 
 #[derive(Template)]
+#[template(path = "info/github-native-unsigned")]
+struct GithubNativeUnsignedInfo<'a> {
+    show_versions: &'a bool,
+}
+
+#[derive(Template)]
 #[template(path = "info/github-flutter-signed")]
 struct GithubFlutterSignedInfo<'a> {
     show_versions: &'a bool,
 }
 
 #[derive(Template)]
+#[template(path = "info/github-flutter-unsigned")]
+struct GithubFlutterUnsignedInfo<'a> {
+    show_versions: &'a bool,
+}
+
+#[derive(Template)]
 #[template(path = "info/github-react-native-signed")]
 struct GithubReactNativeSignedInfo<'a> {
+    show_versions: &'a bool,
+}
+
+#[derive(Template)]
+#[template(path = "info/github-react-native-unsigned")]
+struct GithubReactNativeUnsignedInfo<'a> {
     show_versions: &'a bool,
 }

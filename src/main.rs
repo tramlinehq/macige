@@ -116,7 +116,7 @@ fn CopyToClipboardButton(props: &CopyToClipboardProps) -> Html {
             if *should_say_copied {
                 <div class="sm-t upcase"><mark>{"Copied!"}</mark></div>
             }
-            <button class="copy" onclick={onclick}>
+            <button class="copy plausible-event-name=Copy+workflow+to+clipboard" onclick={onclick}>
             <img src="/public/clipboard-text.svg" width="24" height="24" alt="copy to clipboard" />
             </button>
         </div>
@@ -391,7 +391,7 @@ impl Component for App {
                 </div>
 
                 // CTA
-                <div class="section"><button class="cta" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
+                <div><button class="cta plausible-event-name=Generate+workflow" onclick={link.callback(|_| Msg::Generate)}>{ "Can I have it?" }</button></div>
 
                 // Info + Code
                 <div class="section">

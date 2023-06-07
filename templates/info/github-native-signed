@@ -1,8 +1,5 @@
-{% if show_versions %}
-{% endif -%}
-
 <p>
-    <h3>🚨 Read this first!</h3>
+    <h3>🔐 Setup for signed builds</h3>
     <p>
         When creating signed builds, you need a <b>keystore</b> file and a <code>key.properties</code> file with the secrets on how to unlock the keystore.
     </p>
@@ -80,6 +77,46 @@ buildTypes {
     <p>
         That's all! Now when you run a release build, Gradle knows it has to use the <code>signingConfig.release</code> information, where it will read the storeFile, storePassword, keyAlias, and keyPassword from your <code>key.properties</code> file.
     </p>
-
-    <h4>All done! Now you can copy the workflow ⬇️</h4>
 </p>
+
+{% if show_versions %}
+<p>
+    <h3>#️⃣  Dynamic app versioning</h3>
+    <p>
+        By using <code>workflow_dispatch</code> in GitHub Actions, you can give arguments to a workflow run. We use this to pass build version information to the gradle file, which is useful if a different system, for e.g. <a href="https://github.com/tramlinehq/tramline/" target="_blank">Tramline</a>, manages versioning for you. Here's how to do it:
+    </p>
+
+    <p>
+        By default, the versionCode and versionName values are hardcoded in the <code>build.gradle</code> file like this:
+        <pre>
+versionCode 1
+versionName "1.0.0"</pre>
+    </p>
+
+    <p>
+        Replace those two lines with these instead:
+        <pre>
+if (project.properties["VERSION_CODE"] != null) {
+    versionCode = project.properties["VERSION_CODE"] as Integer
+} else {
+    versionCode = 1
+}
+
+if (project.properties["VERSION_NAME"] != null) {
+    versionName = project.properties["VERSION_NAME"]
+} else {
+    versionName = "1.0.0"
+}</pre>
+    </p>
+
+    <p>
+        This tells gradle to read versionCode and versionName from the project properties, if available. Next, we set the version information in the workflow run as environment variables. The naming scheme of the variables must match the convention exactly, as specified in the <a href="https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties">gradle documentation</a>.
+    </p>
+
+    <p>
+        As you can see in the generated workflow file below, <code>versionCode</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_CODE</code>, and <code>versionName</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_NAME</code>.
+    </p>
+</p>
+{% endif -%}
+
+<h4>All done! Now you can copy the workflow ⬇️</h4>
