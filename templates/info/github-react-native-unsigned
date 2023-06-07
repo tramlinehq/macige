@@ -36,5 +36,5 @@ if (project.properties["VERSION_NAME"] != null) {
         As you can see in the generated workflow file below, <code>versionCode</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_CODE</code>, and <code>versionName</code> is set as <code>ORG_GRADLE_PROJECT_VERSION_NAME</code>.
     </p>
 </p>
-<h3>All done! Now you can copy the workflow ⬇️</h3>
+<h4>All done! Now you can copy the workflow ⬇️</h4>
 {% endif -%}
