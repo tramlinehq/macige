@@ -4,6 +4,7 @@ use strum_macros::{Display, EnumIter, EnumString};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct State {
+    pub app_platform: AppPlatform,
     pub platform: Platform,
     pub sdk: Sdk,
     pub build_type: BuildType,
@@ -29,161 +30,179 @@ impl State {
     pub fn gen_templates(&mut self) {
         let (code_template, info_template) = match (self.platform, self.sdk, self.build_type) {
             (Platform::GitHub, Sdk::Native, BuildType::Signed) => {
-                let code_template = GithubNativeSigned {
-                    title: "Android release build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_name: &self
-                        .custom_inputs
-                        .build_variant_name
-                        .to_owned()
-                        .unwrap_or_default(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubNativeSignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_native_signed();
+                let info_template = self.github_native_signed_info();
+                (Some(code_template), Some(info_template))
             }
-
             (Platform::GitHub, Sdk::Flutter, BuildType::Signed) => {
-                let code_template = GithubFlutterSigned {
-                    title: "Flutter Android release build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubFlutterSignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_flutter_signed();
+                let info_template = self.github_flutter_signed_info();
+                (Some(code_template), Some(info_template))
             }
-
             (Platform::GitHub, Sdk::ReactNative, BuildType::Signed) => {
-                let code_template = GithubReactNativeSigned {
-                    title: "React Native Android release build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_name: &self
-                        .custom_inputs
-                        .build_variant_name
-                        .to_owned()
-                        .unwrap_or_default(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubReactNativeSignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_react_native_signed();
+                let info_template = self.github_react_native_signed_info();
+                (Some(code_template), Some(info_template))
             }
-
             (Platform::GitHub, Sdk::Native, BuildType::Unsigned) => {
-                let code_template = GithubNativeUnsigned {
-                    title: "Android debug build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_name: &self
-                        .custom_inputs
-                        .build_variant_name
-                        .to_owned()
-                        .unwrap_or_default(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubNativeUnsignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_native_unsigned();
+                (Some(code_template), None)
             }
-
             (Platform::GitHub, Sdk::Flutter, BuildType::Unsigned) => {
-                let code_template = GithubFlutterUnsigned {
-                    title: "Flutter Android debug build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubFlutterUnsignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_flutter_unsigned();
+                (Some(code_template), None)
             }
-
             (Platform::GitHub, Sdk::ReactNative, BuildType::Unsigned) => {
-                let code_template = GithubReactNativeUnsigned {
-                    title: "React Native Android debug build",
-                    publishing_format: &self.custom_inputs.publishing_format.to_owned(),
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                    build_variant_name: &self
-                        .custom_inputs
-                        .build_variant_name
-                        .to_owned()
-                        .unwrap_or_default(),
-                    build_variant_path: &self
-                        .custom_inputs
-                        .build_variant_path
-                        .to_owned()
-                        .unwrap_or_default(),
-                };
-
-                let info_template = GithubReactNativeUnsignedInfo {
-                    show_versions: &self.custom_inputs.show_versions.to_owned(),
-                };
-
-                (
-                    Some(code_template.render().unwrap()),
-                    Some(info_template.render().unwrap()),
-                )
+                let code_template = self.github_react_native_unsigned();
+                (Some(code_template), None)
             }
         };
 
         self.code_template = code_template;
-        self.info_template = info_template
+        self.info_template = info_template;
     }
+
+    fn github_native_signed_info(&self) -> String {
+        GithubNativeSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_flutter_signed_info(&self) -> String {
+        GithubFlutterSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_react_native_signed_info(&self) -> String {
+        GithubReactNativeSignedInfo {
+            show_versions: &self.custom_inputs.show_versions.to_owned(),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_native_signed(&self) -> String {
+        GithubNativeSigned {
+            title: "Android release build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_name: &self
+                .custom_inputs
+                .build_variant_name
+                .as_ref()
+                .unwrap_or(&String::new()),
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_flutter_signed(&self) -> String {
+        GithubFlutterSigned {
+            title: "Flutter Android release build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_react_native_signed(&self) -> String {
+        GithubReactNativeSigned {
+            title: "React Native Android release build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_name: &self
+                .custom_inputs
+                .build_variant_name
+                .as_ref()
+                .unwrap_or(&String::new()),
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_native_unsigned(&self) -> String {
+        GithubNativeUnsigned {
+            title: "Android debug build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_name: &self
+                .custom_inputs
+                .build_variant_name
+                .as_ref()
+                .unwrap_or(&String::new()),
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_flutter_unsigned(&self) -> String {
+        GithubFlutterUnsigned {
+            title: "Flutter Android debug build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+
+    fn github_react_native_unsigned(&self) -> String {
+        GithubReactNativeUnsigned {
+            title: "React Native Android debug build",
+            publishing_format: &self.custom_inputs.publishing_format,
+            show_versions: &self.custom_inputs.show_versions,
+            build_variant_name: &self
+                .custom_inputs
+                .build_variant_name
+                .as_ref()
+                .unwrap_or(&String::new()),
+            build_variant_path: &self
+                .custom_inputs
+                .build_variant_path
+                .as_ref()
+                .unwrap_or(&String::new()),
+        }
+        .render()
+        .unwrap()
+    }
+}
+
+#[derive(
+    Clone, Copy, Debug, EnumIter, EnumString, Display, PartialEq, Serialize, Deserialize, Eq,
+)]
+pub enum AppPlatform {
+    #[strum(serialize = "Android")]
+    Android,
 }
 
 #[derive(

@@ -67,4 +67,4 @@ keyPassword=anotherStrongPassword</pre>
 </p>
 {% endif -%}
 
-<h3>All done! Now you can copy the workflow ⬇️</h3>
+<h4>All done! Now you can copy the workflow ⬇️</h4>
